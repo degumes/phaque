@@ -11,24 +11,30 @@
 	cv.setAttribute('width', width+'px')
 	cv.setAttribute('height', height+'px')
 	
+	// canvas context
+	const canvasContext = cv.getContext('2d')
+	canvasContext.strokeStyle = 'red'
+	canvasContext.lineWidth = '4'
+	canvasContext.lineCap = 'round'
+	canvasContext.save()
+	
 	// make painter
 	const drawer2D = ctx => bone => {
 		/*
 		** bone = [x0, y0, xf, yf]
 		*/
-		ctx.strokeStyle = '#FF8800'
-		ctx.lineWidth = '8'
-		ctx.lineCap = 'round'
+		ctx.clearRect(0, 0, width, height)
 		ctx.beginPath()
 		ctx.moveTo(bone[0], bone[1])
 		ctx.lineTo(bone[2], bone[3])
 		ctx.stroke()
 	}
-	const drawBone = drawer2D(cv.getContext('2d'))
+	const drawBone = drawer2D(canvasContext)
 	
 	// read gamepad
 	function getPressure(){
-		return navigator.getGamepads()[0].buttons[7].value || 0
+		const p = navigator.getGamepads()[0]
+		return !p ? 0 : p.buttons[7].value
 	}
 	// spin bone
 	const spinBone = bone => teta =>  [
