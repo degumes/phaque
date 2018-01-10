@@ -19,55 +19,85 @@
 	canvasContext.save()
 	
 	// make painter
-	const drawer2D = ctx => bone => {
+	const drawer2D = ctx => finger => {
 		/*
-		** bone = [x0, y0, xf, yf]
+		** finger = [Axi, Ayi, Axf, Ayf, Bxi, Byi, Bxf, Byf]
 		*/
 		ctx.clearRect(0, 0, width, height)
-		ctx.beginPath()
-		ctx.moveTo(bone[0], bone[1])
-		ctx.lineTo(bone[2], bone[3])
-		ctx.stroke()
+		
+		for(let i=0; i<finger.length/4; i++){
+			ctx.beginPath()
+			ctx.moveTo(finger[4*i], finger[4*i+1])
+			ctx.lineTo(finger[4*i+2], finger[4*i+3])
+			ctx.stroke()
+		}
 	}
-	const drawBone = drawer2D(canvasContext)
+	const drawFinger = drawer2D(canvasContext)
 	
 	// read gamepad
-	function getPressure(){
+	function getAlfa(){
+		const p = navigator.getGamepads()[0]
+		return !p ? 0 : p.buttons[6].value
+	}
+	function getTeta(){
 		const p = navigator.getGamepads()[0]
 		return !p ? 0 : p.buttons[7].value
 	}
-	// spin bone
-	const spinBone = bone => teta =>  [
-		bone[0],
-		bone[1],
-		(Math.cos(teta)*(bone[2]-bone[0])-Math.sin(teta)*(bone[3]-bone[1])) + bone[0],
-		(Math.sin(teta)*(bone[2]-bone[0])+Math.cos(teta)*(bone[3]-bone[1])) + bone[1]
-	]
-
+	
+	// shift origin
+	function shift(n, dx, dy, arr) {
+		for(let i=n; i<arr.length/4; i++){
+			arr[4*i] -= dx
+			arr[4*i + 1] -= dy
+			arr[4*i + 2] -= dx
+			arr[4*i + 3] -= dy
+		}
+	}
+	// rotate
+	function rotate(n, q, arr) {
+		for(let i=n; i<arr.length/4; i++){
+			let x0 = arr[4*i]
+			let y0 = arr[4*i+1]
+			arr[4*i] = x0*Math.cos(q) - y0*Math.sin(q)
+			arr[4*i + 1] = x0*Math.sin(q) + y0*Math.cos(q)
+			x0 = arr[4*i+2]
+			y0 = arr[4*i+3]
+			arr[4*i + 2] = x0*Math.cos(q) - y0*Math.sin(q)
+			arr[4*i + 3] = x0*Math.sin(q) + y0*Math.cos(q)
+		}
+	}
+	// spin finger
+	function spinFinger(n, rads, finger){
+		if(n < finger.length/4) {
+			let dx = finger[4*n]
+			let dy = finger[4*n+1]
+			
+			shift(n, dx, dy, finger)
+			rotate(n, rads[n], finger)
+			shift(n, -dx, -dy, finger)
+			
+			spinFinger(n+1, rads, finger)
+		}
+	}
 	
 	// make *loop to rAF
-	function* genloop(){
-
-	}
 	const _gl = (function* (){
-		let lastrAF = 0
-		let dt
-		let t
 		
 		let teta = 0
-		const spin = spinBone([ 25, 25, 75, 25 ])
-		let bone
+		let alfa = 0
+		let finger
 
 		while(true){
-			t = yield
-			dt = t - lastrAF
-			lastrAF = t
+			yield
 			
-			bone = spin(teta)
-			drawBone(spin(teta))
-			teta = Math.PI * getPressure() * 0.5
+			finger = [ 25, 25, 50, 25, 50, 25, 75, 25 ]
 			
-			console.log(bone)
+			teta = Math.PI * getTeta() * 0.5
+			alfa = Math.PI * getAlfa() * 0.5
+			spinFinger(0, [alfa, teta], finger)
+			drawFinger(finger)
+			
+			//console.log(finger)
 			
 			requestAnimationFrame(gl)
 		}	
