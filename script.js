@@ -49,53 +49,106 @@
 	}
 	
 	// shift origin
-	function shift(n, dx, dy, arr) {
-		for(let i=n; i<arr.length/2; i++){
-			arr[2*i] -= dx
-			arr[2*i + 1] -= dy
+	function shift(n, dx, dy, dz, arr) {
+		for(let i=n; i<arr.length/6; i++){
+			arr[6*i] -= dx
+			arr[6*i + 1] -= dy
+			arr[6*i + 2] -= dz
+			arr[6*i + 3] -= dx
+			arr[6*i + 4] -= dy
+			arr[6*i + 5] -= dz
 		}
 	}
-	// rotate
-	function rotate(n, q, arr) {
-		for(let i=n; i<arr.length/2; i++){
-			let x0 = arr[2*i]
-			let y0 = arr[2*i+1]
-			arr[2*i] = x0*Math.cos(q) - y0*Math.sin(q)
-			arr[2*i + 1] = x0*Math.sin(q) + y0*Math.cos(q)
-		}
-	}
-	// spin finger
-	function spinFinger(n, rads, finger){
-		if(n < finger.length/4) {
-			let dx = finger[4*n]
-			let dy = finger[4*n+1]
+	// say no-no
+	function hingeFinger(q, finger) {
+		let dx = finger[0]
+		let dy = finger[1]
+		let dz = finger[2]
+		
+		shift(0, dx, dy, dz, finger)
+		
+		for(let i=0; i<finger.length/6; i++){
+			let x0 = finger[6*i]
+			let z0 = finger[6*i+2]
+			finger[6*i] = x0*Math.cos(q) - z0*Math.sin(q)
+			finger[6*i + 2] = x0*Math.sin(q) + z0*Math.cos(q)
 			
-			shift(n, dx, dy, finger)
-			rotate(n, rads[n], finger)
-			shift(n, -dx, -dy, finger)
+			x0 = finger[6*i+3]
+			z0 = finger[6*i+5]
+			finger[6*i + 3] = x0*Math.cos(q) - z0*Math.sin(q)
+			finger[6*i + 5] = x0*Math.sin(q) + z0*Math.cos(q)
+		}
+		
+		shift(0, -dx, -dy, -dz, finger)
+	}
+	// snail finger
+	function snailFinger(n, rads, finger){
+		if(n < finger.length/6) {
+			let dx = finger[6*n]
+			let dy = finger[6*n+1]
+			let dz = finger[6*n+2]
 			
-			spinFinger(n+1, rads, finger)
+			shift(n, dx, dy, dz, finger)
+			
+			for(let i=n; i<finger.length/6; i++){
+				let x0 = finger[6*i]
+				let y0 = finger[6*i+1]
+				finger[6*i] = x0*Math.cos(rads[n]) - y0*Math.sin(rads[n])
+				finger[6*i + 1] = x0*Math.sin(rads[n]) + y0*Math.cos(rads[n])
+				
+				x0 = finger[6*i+3]
+				y0 = finger[6*i+4]
+				finger[6*i + 3] = x0*Math.cos(rads[n]) - y0*Math.sin(rads[n])
+				finger[6*i + 4] = x0*Math.sin(rads[n]) + y0*Math.cos(rads[n])
+			}
+			
+			shift(n, -dx, -dy, -dz, finger)
+			
+			snailFinger(n+1, rads, finger)
 		}
 	}
+	// projection
+	function projection(f) {
+		// point of vision [50, 50, -100]
+		// plane of projection [0,0,0] + z
+		const projected = []
+		for(let i=0; i<f.length/3; i++){
+			projected.push(100*(f[3*i]-50)/(f[3*i+2]+100) + 50)
+			projected.push(100*(f[3*i+1]-50)/(f[3*i+2]+100) + 50)
+		}
+		return projected
+	}
+	
 	
 	// make *loop to rAF
 	const _gl = (function* (){
-		
-		let teta = 0
-		let alfa = 0
-		let finger
-
 		while(true){
 			yield
 			
-			finger = [ 25, 25, 50, 25, 50, 25, 75, 25 ]
+			let finger3D = [
+				20, 20, 100,// x, y, z
+				40, 20, 100,
+				
+				40, 20, 100,// P2
+				60, 20, 100,
+				
+				60, 20, 100,// P3
+				80, 20, 100
+			]
+			let [phiN, phiS] = getPhi()
+			let alfa = Math.PI * getAlfa() * 0.5			
+			let teta = Math.PI * getTeta() * 0.5
+			//console.log(`phiN: ${phiN} phiS: ${phiN} alfa: ${alfa} teta: ${teta}`)
 			
-			teta = Math.PI * getTeta() * 0.5
-			alfa = Math.PI * getAlfa() * 0.5
-			spinFinger(0, [alfa, teta], finger)
-			drawFinger(finger)
+			snailFinger(0, [phiS, alfa, teta], finger3D)
+			hingeFinger(phiN, finger3D)
+			//console.log(finger3D)
 			
-			//console.log(finger)
+			let fingerProjected = projection(finger3D)
+			
+			drawFinger(fingerProjected)
+			
+			//console.log(fingerProjected)
 			
 			requestAnimationFrame(gl)
 		}	
