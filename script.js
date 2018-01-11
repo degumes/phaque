@@ -34,7 +34,11 @@
 	}
 	const drawFinger = drawer2D(canvasContext)
 	
-	// read gamepad
+	// read gamepad]
+	function getPhi(){
+		const p = navigator.getGamepads()[0]
+		return !p ? [0,0] : [p.axes[0],p.axes[1]]
+	}
 	function getAlfa(){
 		const p = navigator.getGamepads()[0]
 		return !p ? 0 : p.buttons[6].value
@@ -46,24 +50,18 @@
 	
 	// shift origin
 	function shift(n, dx, dy, arr) {
-		for(let i=n; i<arr.length/4; i++){
-			arr[4*i] -= dx
-			arr[4*i + 1] -= dy
-			arr[4*i + 2] -= dx
-			arr[4*i + 3] -= dy
+		for(let i=n; i<arr.length/2; i++){
+			arr[2*i] -= dx
+			arr[2*i + 1] -= dy
 		}
 	}
 	// rotate
 	function rotate(n, q, arr) {
-		for(let i=n; i<arr.length/4; i++){
-			let x0 = arr[4*i]
-			let y0 = arr[4*i+1]
-			arr[4*i] = x0*Math.cos(q) - y0*Math.sin(q)
-			arr[4*i + 1] = x0*Math.sin(q) + y0*Math.cos(q)
-			x0 = arr[4*i+2]
-			y0 = arr[4*i+3]
-			arr[4*i + 2] = x0*Math.cos(q) - y0*Math.sin(q)
-			arr[4*i + 3] = x0*Math.sin(q) + y0*Math.cos(q)
+		for(let i=n; i<arr.length/2; i++){
+			let x0 = arr[2*i]
+			let y0 = arr[2*i+1]
+			arr[2*i] = x0*Math.cos(q) - y0*Math.sin(q)
+			arr[2*i + 1] = x0*Math.sin(q) + y0*Math.cos(q)
 		}
 	}
 	// spin finger
