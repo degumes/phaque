@@ -35,10 +35,6 @@
 	const drawFinger = drawer2D(canvasContext)
 	
 	// read gamepad
-	function getPhi(){
-		const p = navigator.getGamepads()[0]
-		return !p ? [0,0] : [p.axes[0],p.axes[1]]
-	}
 	function getAlfa(){
 		const p = navigator.getGamepads()[0]
 		return !p ? 0 : p.buttons[6].value
@@ -86,20 +82,24 @@
 	
 	// make *loop to rAF
 	const _gl = (function* (){
-				while(true){
+		
+		let teta = 0
+		let alfa = 0
+		let finger
+
+		while(true){
 			yield
 			
-			let finger2D = [ 20, 20, 40, 20, 40, 20, 60, 20, 60, 20, 80, 20 ]
+			finger = [ 25, 25, 50, 25, 50, 25, 75, 25 ]
 			
-			let [phiN, phiS] = getPhi()
-			let teta = Math.PI * getTeta() * 0.5
-			let alfa = Math.PI * getAlfa() * 0.5
-			spinFinger(0, [phiS, alfa, teta], finger2D)
-			drawFinger(finger2D)
+			teta = Math.PI * getTeta() * 0.5
+			alfa = Math.PI * getAlfa() * 0.5
+			spinFinger(0, [alfa, teta], finger)
+			drawFinger(finger)
 			
-			console.log(finger2D)
+			//console.log(finger)
 			
-			//requestAnimationFrame(gl)
+			requestAnimationFrame(gl)
 		}	
 	})()
 	_gl.next()
