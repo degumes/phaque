@@ -36,8 +36,7 @@ import * as gt from './geometrytools.js';
 
 			//console.log(`phiN: ${phiN} phiS: ${phiN} alfa: ${alfa} teta: ${teta}`)
 			
-			gt.snailFinger(0, [phiS, alfa, teta], finger3D)
-			gt.hingeFinger(phiN, finger3D)
+			gt.bendfinger([phiN, phiS, alfa, teta], finger3D)
 			//console.log(finger3D)
 			
 			let fingerProjected = gt.projection(finger3D)	

@@ -8,7 +8,7 @@ function shift(n, dx, dy, dz, arr) {
 		arr[6*i + 5] -= dz
 	}
 }
-export function hingeFinger(q, finger) {
+function hingeFinger(q, finger) {
 	let dx = finger[0]
 	let dy = finger[1]
 	let dz = finger[2]
@@ -29,7 +29,7 @@ export function hingeFinger(q, finger) {
 	
 	shift(0, -dx, -dy, -dz, finger)
 }
-export function snailFinger(n, rads, finger){
+function snailFinger(n, rads, finger){
 	if(n < finger.length/6) {
 		let dx = finger[6*n]
 		let dy = finger[6*n+1]
@@ -53,6 +53,10 @@ export function snailFinger(n, rads, finger){
 		
 		snailFinger(n+1, rads, finger)
 	}
+}
+export function bendfinger([phiN, phiS, alfa, teta], finger){
+	snailFinger(0, [phiS, alfa, teta], finger)
+	hingeFinger(phiN, finger)
 }
 export 	function projection(f) {
 	// point of vision [50, 50, -100]
