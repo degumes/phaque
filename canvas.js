@@ -2,8 +2,6 @@ const cvDom = {}
 let cvDomCount = 0
 
 const drawer2D = (ctx, w, h) => f => {
-	ctx.clearRect(0, 0, w, h)
-	
 	for(let i=0; i<f.length/4; i++){
 		ctx.beginPath()
 		ctx.moveTo(f[4*i], f[4*i+1])
@@ -26,7 +24,7 @@ export default function({width, height}) {
 	
 	const ctx = cv.getContext('2d')
 	ctx.strokeStyle = 'red'
-	ctx.lineWidth = '4'
+	ctx.lineWidth = '1'
 	ctx.lineCap = 'round'
 	ctx.save()
 	
