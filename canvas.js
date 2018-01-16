@@ -23,8 +23,9 @@ export default function({width, height}) {
 	
 	
 	const ctx = cv.getContext('2d')
-	ctx.strokeStyle = 'red'
-	ctx.lineWidth = '1'
+	ctx.save()
+	ctx.strokeStyle = 'blue'
+	ctx.lineWidth = '2'
 	ctx.lineCap = 'round'
 	ctx.save()
 	

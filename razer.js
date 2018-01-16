@@ -5,8 +5,13 @@ export default function () {
 	if (!pads[0]) {
 		return {
 			l2: 0,
+			l3: false,
 			l4: [0,0],
-			r2: 0			
+			r2: 0,
+			r3: false,
+			
+			up: false,
+			down: false
 		}
 	} else {
 		return {
@@ -17,7 +22,10 @@ export default function () {
 				halfPI * pads[0].axes[1]
 			],
 			r2: halfPI * pads[0].buttons[7].value,
-			r3: pads[0].buttons[11].pressed
+			r3: pads[0].buttons[11].pressed,
+			
+			up: pads[0].buttons[12].pressed,
+			down: pads[0].buttons[13].pressed
 		}
 	}
 }

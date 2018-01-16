@@ -1,11 +1,11 @@
 function shift(n, dx, dy, dz, arr) {
 	for(let i=n; i<arr.length/6; i++){
-		arr[6*i] -= dx
-		arr[6*i + 1] -= dy
-		arr[6*i + 2] -= dz
-		arr[6*i + 3] -= dx
-		arr[6*i + 4] -= dy
-		arr[6*i + 5] -= dz
+		arr[6*i] += dx
+		arr[6*i + 1] += dy
+		arr[6*i + 2] += dz
+		arr[6*i + 3] += dx
+		arr[6*i + 4] += dy
+		arr[6*i + 5] += dz
 	}
 }
 function hingeFinger(q, finger) {
@@ -13,7 +13,7 @@ function hingeFinger(q, finger) {
 	let dy = finger[1]
 	let dz = finger[2]
 	
-	shift(0, dx, dy, dz, finger)
+	shift(0, -dx, -dy, -dz, finger)
 	
 	for(let i=0; i<finger.length/6; i++){
 		let x0 = finger[6*i]
@@ -27,7 +27,7 @@ function hingeFinger(q, finger) {
 		finger[6*i + 5] = x0*Math.sin(q) + z0*Math.cos(q)
 	}
 	
-	shift(0, -dx, -dy, -dz, finger)
+	shift(0, dx, dy, dz, finger)
 }
 function snailFinger(n, rads, finger){
 	if(n < finger.length/6) {
@@ -35,7 +35,7 @@ function snailFinger(n, rads, finger){
 		let dy = finger[6*n+1]
 		let dz = finger[6*n+2]
 		
-		shift(n, dx, dy, dz, finger)
+		shift(n, -dx, -dy, -dz, finger)
 		
 		for(let i=n; i<finger.length/6; i++){
 			let x0 = finger[6*i]
@@ -49,7 +49,7 @@ function snailFinger(n, rads, finger){
 			finger[6*i + 4] = x0*Math.sin(rads[n]) + y0*Math.cos(rads[n])
 		}
 		
-		shift(n, -dx, -dy, -dz, finger)
+		shift(n, dx, dy, dz, finger)
 		
 		snailFinger(n+1, rads, finger)
 	}
