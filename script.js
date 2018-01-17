@@ -1,21 +1,19 @@
 import canvas from './canvas.js'
 import gamepad from './razer.js'
-import fs from './framescene.js'
+import framer from './framescene.js'
 
 !void (function(){
 	let t
+	let snapad
+	let scene
+	let hand
 	
 	const [
 		canvasDom,
-		canvasContext,
-		drawFinger
+		drawHand
 	] = canvas({width: 100, height: 100})
 	
-	const hand = [
-		[-5, -5, 100, 30, -5, 100, 30, -5, 100, 65, -5, 100, 65, -5, 100, 100, -5, 100],
-		[-5, 45, 100, 30, 45, 100, 30, 45, 100, 65, 45, 100, 65, 45, 100, 100, 45, 100],
-		[-5, 95, 100, 30, 95, 100, 30, 95, 100, 65, 95, 100, 65, 95, 100, 100, 95, 100]
-	]
+
 	
 	// make *loop to rAF
 	const _gl = (function* (){
@@ -24,22 +22,16 @@ import fs from './framescene.js'
 			yield t
 			
 			// read gamepad
-			let {
-				l3: back,
-				r3: log,
-				l4: [
-					phiN,
-					phiS
-				],
-				l2: alfa,
-				r2: teta,
-				r3: edit,
-				up,
-				down,
-			} = gamepad()
+			snapad = gamepad()
+			snapad.t = t
 			
-			let frame = fs()
-			console.log(frame())
+			// articulate interface
+			scene = framer()
+			hand = scene(snapad)
+			
+			// draw to canavs
+			console.dir(hand)
+			
 			//requestAnimationFrame(gl)
 		}	
 	})()
@@ -49,7 +41,7 @@ import fs from './framescene.js'
 	
 	window.onload = function(){
 		document.body.appendChild(canvasDom)
-		requestAnimationFrame(gl)
+		//requestAnimationFrame(gl)
 	}
 	
 })()

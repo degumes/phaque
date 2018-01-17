@@ -2,6 +2,7 @@ import * as gt from './geometrytools.js'
 
 const scenes = []
 let currentScene = 0
+const sharedStates = {}
 
 const sceneA = {
 	states: {},
