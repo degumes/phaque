@@ -1,9 +1,10 @@
 import canvas from './canvas.js'
 import gamepad from './razer.js'
-import * as gt from './geometrytools.js'
-import trigger from './trigger.js'
+import fs from './framescene.js'
 
 !void (function(){
+	let t
+	
 	const [
 		canvasDom,
 		canvasContext,
@@ -16,27 +17,11 @@ import trigger from './trigger.js'
 		[-5, 95, 100, 30, 95, 100, 30, 95, 100, 65, 95, 100, 65, 95, 100, 100, 95, 100]
 	]
 	
-	let fingerNumber = 0
-	const trigger_up = trigger({onrelease: function trigger_up(){
-		fingerNumber++
-		if(fingerNumber === hand.length){
-			fingerNumber = 0
-		}
-	}})
-	const trigger_down = trigger({onrelease: function trigger_down(){
-		if(fingerNumber === 0){
-			fingerNumber = hand.length - 1
-		} else {
-			fingerNumber--
-		}
-	}})
-	
-	
 	// make *loop to rAF
 	const _gl = (function* (){
 		while(true){
 			// pause-resume generator
-			yield
+			yield t
 			
 			// read gamepad
 			let {
@@ -48,28 +33,14 @@ import trigger from './trigger.js'
 				],
 				l2: alfa,
 				r2: teta,
-				
+				r3: edit,
 				up,
-				down
+				down,
 			} = gamepad()
 			
-			trigger_up(up)
-			trigger_down(down)
-
-			//gt.bendfinger([phiN, phiS, alfa, teta], finger3D)
-			
-			canvasContext.clearRect(0,0,100,100)
-
-			canvasContext.strokeStyle = 'red'
-			drawFinger(gt.projection(hand[fingerNumber]))
-			for (let i=1; i<hand.length; i++) {			
-				let idx = (fingerNumber+i) % hand.length
-				
-				canvasContext.strokeStyle = 'blue'
-				drawFinger(gt.projection(hand[idx]))
-			}
-			
-			requestAnimationFrame(gl)
+			let frame = fs()
+			console.log(frame())
+			//requestAnimationFrame(gl)
 		}	
 	})()
 	_gl.next()
@@ -82,3 +53,9 @@ import trigger from './trigger.js'
 	}
 	
 })()
+
+/*
+canvasContext.clearRect(0,0,100,100)
+canvasContext.strokeStyle = 'red'
+drawFinger(gt.projection(hand[fingerNumber]))
+*/	
