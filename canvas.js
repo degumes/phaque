@@ -29,5 +29,5 @@ export default function({width, height}) {
 	ctx.lineCap = 'round'
 	ctx.save()
 	
-	return [cv, ctx, drawer2D(ctx, width, height)]
+	return [cv, drawer2D(ctx, width, height)]
 }

@@ -30,9 +30,8 @@ import framer from './framescene.js'
 			hand = scene(snapad)
 			
 			// draw to canavs
-			console.dir(hand)
 			
-			//requestAnimationFrame(gl)
+			requestAnimationFrame(gl)
 		}	
 	})()
 	_gl.next()
@@ -41,7 +40,7 @@ import framer from './framescene.js'
 	
 	window.onload = function(){
 		document.body.appendChild(canvasDom)
-		//requestAnimationFrame(gl)
+		requestAnimationFrame(gl)
 	}
 	
 })()
