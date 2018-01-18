@@ -1,52 +1,62 @@
+import mkhand from './handangles.js'
+const hand = mkhand()
+
 const scenes = []
 let currentRender = 0
-let currentFinger = 0
-const angleFingers = [[0,0,0],[0,0,0],[0,0,0]]
 
-function mkhh (callback) {
-	let ed = false
-	return function holderHandler (e) {
-		if( ed && !e ) {
+let lastFinger = 0
+let currentFinger = 0
+
+function mkhs (callback) {
+	let lastSignal = false
+	return function holderSensor (signal) {
+		if( lastSignal && !signal ) {
 			callback()
 		}
-		ed = e
+		lastSignal = signal
 	}
 }
 
 function sceneA () {
-	const sensors = [
+	const handlers = [
 		{
 			key: 'l3',
-			signalHandler: mkhh( () => {
+			sensor: mkhs( () => {
 				currentRender = 1
-				console.log('going to B')
+				hand.fingers[currentFinger].type = 'red'
+				console.log(`going to scene: B currentFinger: ${currentFinger}`)
 			})
 		},
 		{
 			key: 'up',
-			signalHandler: mkhh( () => {
+			sensor: mkhs( () => {
+				lastFinger = currentFinger
 				currentFinger++
-				if (currentFinger === 3) {
+				if (currentFinger === 5) {
 					currentFinger = 0
 				}
-				console.log(`currentFinger: ${currentFinger}`)
+				hand.fingers[lastFinger].type = 'blue'
+				hand.fingers[currentFinger].type = 'gree'
 			})
 		},
 		{
 			key: 'down',
-			signalHandler: mkhh( () => {
+			sensor: mkhs( () => {
+
+				lastFinger = currentFinger
 				if (currentFinger === 0) {
-					currentFinger = 2
+					currentFinger = 4
 				} else {
 					currentFinger--
 				}
-				console.log(`currentFinger: ${currentFinger}`)
+				hand.fingers[lastFinger].type = 'blue'
+				hand.fingers[currentFinger].type = 'gree'
 			})
 		}
 	]
 	return function renderA (snapad) {
-		for (const hdl of sensors) {
-			hdl.signalHandler(snapad[hdl.key])
+		for (const hdl of handlers) {
+			hdl.sensor(snapad[hdl.key])
 		}
 		// transformations to hand shape
 		return 'hand'
@@ -55,37 +65,43 @@ function sceneA () {
 scenes.push(sceneA())
 
 function sceneB () {
-	const sensors = [
+	const handlers = [
 		{
 			key: 'r3',
-			signalHandler: mkhh( () => {
+			sensor: mkhs( () => {
 				currentRender = 0
-				console.log('going to A')
-				console.log(angleFingers[currentFinger])
+				hand.fingers[currentFinger].type = 'blue'
+				console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
 			})
 		},
 		{
 			key: 'alpha',
-			signalHandler: a => {
-				angleFingers[currentFinger][2] = 0.5*Math.PI*a
+			sensor: a => {
+				hand.fingers[currentFinger].angles['alpha'] = a
 			}
 		},
 		{
 			key: 'beta',
-			signalHandler: a => {
-				angleFingers[currentFinger][1] = 0.5*Math.PI*a
+			sensor: b => {
+				hand.fingers[currentFinger].angles['beta'] = b
 			}			
 		},
 		{
 			key: 'gamma',
-			signalHandler: a => {
-				angleFingers[currentFinger][0] = 0.25*Math.PI*a
+			sensor: g => {
+				hand.fingers[currentFinger].angles['gamma'] = g
+			}			
+		},
+		{
+			key: 'eta',
+			sensor: e => {
+				hand.fingers[currentFinger].angles['eta'] = e
 			}			
 		}
 	]
 	return function renderB (snapad) {
-		for (const hdl of sensors) {
-			hdl.signalHandler(snapad[hdl.key])
+		for (const hdl of handlers) {
+			hdl.sensor(snapad[hdl.key])
 		}
 		return 'hand'
 	}
