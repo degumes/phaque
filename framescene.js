@@ -7,6 +7,9 @@ let currentRender = 0
 let lastFinger = 0
 let currentFinger = 0
 
+let accTheta = 0
+let accPhi = 0
+
 function mkhs (callback) {
 	let lastSignal = false
 	return function holderSensor (signal) {
@@ -28,6 +31,18 @@ function sceneA () {
 			})
 		},
 		{
+			key: 'r3',
+			sensor: mkhs( () => {
+				currentRender = 2
+				hand.fingers.forEach(f => {
+					f.type = 'red'
+				})
+				accPhi = hand.phi
+				accTheta = hand.theta
+				console.log(`going to scene: C`)
+			})
+		},
+		{
 			key: 'up',
 			sensor: mkhs( () => {
 				lastFinger = currentFinger
@@ -37,6 +52,7 @@ function sceneA () {
 				}
 				hand.fingers[lastFinger].type = 'blue'
 				hand.fingers[currentFinger].type = 'gree'
+				console.log(`currentFinger: ${currentFinger}`)
 			})
 		},
 		{
@@ -51,6 +67,7 @@ function sceneA () {
 				}
 				hand.fingers[lastFinger].type = 'blue'
 				hand.fingers[currentFinger].type = 'gree'
+				console.log(`currentFinger: ${currentFinger}`)
 			})
 		}
 	]
@@ -108,6 +125,41 @@ function sceneB () {
 }
 scenes.push(sceneB())
 
+function sceneC () {
+	const handlers = [
+		{
+			key: 'l3',
+			sensor: mkhs( () => {
+				currentRender = 0
+				hand.fingers.forEach(f => {
+					f.type = 'blue'
+				})
+				hand.fingers[currentFinger].type = 'green'
+				
+				console.log(`going to scene: A theta: ${hand.theta} phi: ${hand.phi}`)
+			})
+		},
+		{
+			key: 'theta',
+			sensor: t => {
+				hand.theta = accTheta + t
+			}
+		},
+		{
+			key: 'phi',
+			sensor: p => {
+				hand.phi = accPhi + p
+			}			
+		}
+	]
+	return function renderC (snapad) {
+		for (const hdl of handlers) {
+			hdl.sensor(snapad[hdl.key])
+		}
+		return 'hand'
+	}
+}
+scenes.push(sceneC())
 
 export default function ( ) {
 	return scenes[currentRender]
