@@ -51,7 +51,7 @@ function sceneA () {
 					currentFinger = 0
 				}
 				hand.fingers[lastFinger].type = 'blue'
-				hand.fingers[currentFinger].type = 'gree'
+				hand.fingers[currentFinger].type = 'green'
 				console.log(`currentFinger: ${currentFinger}`)
 			})
 		},
@@ -66,7 +66,7 @@ function sceneA () {
 					currentFinger--
 				}
 				hand.fingers[lastFinger].type = 'blue'
-				hand.fingers[currentFinger].type = 'gree'
+				hand.fingers[currentFinger].type = 'green'
 				console.log(`currentFinger: ${currentFinger}`)
 			})
 		}
@@ -76,7 +76,7 @@ function sceneA () {
 			hdl.sensor(snapad[hdl.key])
 		}
 		// transformations to hand shape
-		return 'hand'
+		return hand
 	}
 }
 scenes.push(sceneA())
@@ -87,7 +87,7 @@ function sceneB () {
 			key: 'r3',
 			sensor: mkhs( () => {
 				currentRender = 0
-				hand.fingers[currentFinger].type = 'blue'
+				hand.fingers[currentFinger].type = 'green'
 				console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
 			})
 		},
@@ -120,7 +120,7 @@ function sceneB () {
 		for (const hdl of handlers) {
 			hdl.sensor(snapad[hdl.key])
 		}
-		return 'hand'
+		return hand
 	}
 }
 scenes.push(sceneB())
@@ -156,7 +156,7 @@ function sceneC () {
 		for (const hdl of handlers) {
 			hdl.sensor(snapad[hdl.key])
 		}
-		return 'hand'
+		return hand
 	}
 }
 scenes.push(sceneC())

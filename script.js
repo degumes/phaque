@@ -1,4 +1,3 @@
-import canvas from './canvas.js'
 import gamepad from './razer.js'
 import framer from './framescene.js'
 
@@ -7,14 +6,7 @@ import framer from './framescene.js'
 	let snapad
 	let scene
 	let hand
-	
-	const [
-		canvasDom,
-		drawHand
-	] = canvas({width: 100, height: 100})
-	
 
-	
 	// make *loop to rAF
 	const _gl = (function* (){
 		while(true){
@@ -30,6 +22,15 @@ import framer from './framescene.js'
 			hand = scene(snapad)
 			
 			// draw to canavs
+			document.getElementById("theta").innerText = hand.theta.toFixed(2)
+			document.getElementById("phi").innerText = hand.phi.toFixed(2)
+			for ( const f of hand.fingers ) {
+				document.getElementById(f.name).style.backgroundColor = f.type
+				document.getElementById(f.name+"alpha").innerText = f.angles.alpha.toFixed(2)
+				document.getElementById(f.name+"beta").innerText = f.angles.beta.toFixed(2)
+				document.getElementById(f.name+"gamma").innerText = f.angles.gamma.toFixed(2)
+				document.getElementById(f.name+"eta").innerText = f.angles.eta.toFixed(2)
+			}
 			
 			requestAnimationFrame(gl)
 		}	
@@ -39,12 +40,10 @@ import framer from './framescene.js'
 	
 	
 	window.onload = function(){
-		document.body.appendChild(canvasDom)
 		requestAnimationFrame(gl)
 	}
 	
 })()
-
 /*
 canvasContext.clearRect(0,0,100,100)
 canvasContext.strokeStyle = 'red'

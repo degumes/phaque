@@ -45,7 +45,7 @@ const Hand = {
 			}
 		},
 		{
-			name: 'pinkie',
+			name: 'pinky',
 			type: 'blue',
 			angles: {
 				alpha: 0,
