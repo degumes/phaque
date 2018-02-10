@@ -25,8 +25,8 @@ export default function () {
       phi: halfPI * pads[0].axes[2], // RaH
       l3: pads[0].buttons[10].pressed,
       r3: pads[0].buttons[11].pressed,
-      up: pads[0].buttons[12].pressed,
-      down: pads[0].buttons[13].pressed
+      up: pads[0].buttons[5].pressed,
+      down: pads[0].buttons[4].pressed
     }
   }
 }
