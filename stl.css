@@ -1,12 +1,13 @@
 *, *:before, *:after {
   box-sizing: content-box;
 }
+html {
+	height: 100%;
+}
 body {
 	margin: 0 auto;
-	padding-top: 2rem;
-	text-align: center;
-	max-width: 960px;
-}
-canvas {
-	border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	height: 100%;
 }
