@@ -1,6 +1,6 @@
 import gamepad from './razer.js'
 import framer from './framescene.js'
-import canvas from './webgl.js'
+import draw from './webgl.js'
 
 (function () {
   let t
@@ -21,7 +21,9 @@ import canvas from './webgl.js'
       // articulate interface
       scene = framer()
       hand = scene(snapad)
-	  
+      draw(hand)
+
+      // loop
       window.requestAnimationFrame(gl)
     }
   })()

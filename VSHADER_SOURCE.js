@@ -1,7 +1,7 @@
 const VSHADER_SOURCE = `#version 300 es
-in vec4 a_Position;
+in vec4 aPosition;
 void main() {
-	gl_Position = a_Position;
+  gl_Position = aPosition;
 }`
 
 export default VSHADER_SOURCE
