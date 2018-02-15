@@ -3,6 +3,7 @@ import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexData from './vertexData.js'
 
 let side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+side = 300
 const dpi = window.devicePixelRatio || 1
 const canvas = document.getElementById('handgl')
 canvas.width = side * dpi
@@ -12,6 +13,7 @@ canvas.style.height = side
 
 window.onresize = () => {
   side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+  side = 300
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side

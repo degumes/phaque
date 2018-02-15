@@ -1,6 +1,6 @@
 import gamepad from './razer.js'
 import framer from './framescene.js'
-import draw from './webgl.js'
+import drawgl from './webgl.js'
 
 (function () {
   let t
@@ -21,7 +21,21 @@ import draw from './webgl.js'
       // articulate interface
       scene = framer()
       hand = scene(snapad)
-      draw(hand)
+
+      // webgl draw
+      drawgl(hand)
+
+      // form
+      // draw to canavs
+      document.getElementById('theta').innerText = hand.theta.toFixed(2)
+      document.getElementById('phi').innerText = hand.phi.toFixed(2)
+      for (const f of hand.fingers) {
+        document.getElementById(f.name).style.backgroundColor = f.type
+        document.getElementById(f.name + 'alpha').innerText = f.angles.alpha.toFixed(2)
+        document.getElementById(f.name + 'beta').innerText = f.angles.beta.toFixed(2)
+        document.getElementById(f.name + 'gamma').innerText = f.angles.gamma.toFixed(2)
+        document.getElementById(f.name + 'eta').innerText = f.angles.eta.toFixed(2)
+      }
 
       // loop
       window.requestAnimationFrame(gl)
