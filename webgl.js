@@ -55,7 +55,7 @@ gl.bindVertexArray(vao)
 gl.enableVertexAttribArray(aPosition)
 
 const FSIZE = vertexData.BYTES_PER_ELEMENT
-gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 3 * FSIZE, 0)
+gl.vertexAttribPointer(aPosition, 4, gl.FLOAT, false, 4 * FSIZE, 0)
 
 gl.useProgram(program)
 gl.bindVertexArray(vao)
