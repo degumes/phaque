@@ -9,6 +9,7 @@ let currentFinger = 0
 
 let accTheta = 0
 let accPhi = 0
+let accSpin = 0
 
 function mkhs (callback) {
   let lastSignal = false
@@ -37,6 +38,7 @@ function sceneA () {
         hand.fingers.forEach(f => {
           f.type = 'red'
         })
+        accSpin = hand.spin
         accPhi = hand.phi
         accTheta = hand.theta
         console.log(`going to scene: C`)
@@ -135,7 +137,7 @@ function sceneC () {
         })
         hand.fingers[currentFinger].type = 'green'
 
-        console.log(`going to scene: A theta: ${hand.theta} phi: ${hand.phi}`)
+        console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
       })
     },
     {
@@ -148,6 +150,12 @@ function sceneC () {
       key: 'phi',
       sensor: p => {
         hand.phi = accPhi + p
+      }
+    },
+    {
+      key: 'spin',
+      sensor: s => {
+        hand.spin = accSpin + s
       }
     }
   ]

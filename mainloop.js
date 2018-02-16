@@ -27,6 +27,7 @@ import drawgl from './webgl.js'
 
       // form
       // draw to canavs
+      document.getElementById('spin').innerText = hand.spin.toFixed(2)
       document.getElementById('theta').innerText = hand.theta.toFixed(2)
       document.getElementById('phi').innerText = hand.phi.toFixed(2)
       for (const f of hand.fingers) {
