@@ -82,7 +82,7 @@ gl.bindVertexArray(gl.vao)
 */
 gl.uni = {}
 gl.uni.spinThetaPhi = gl.getUniformLocation(gl.exe, 'spinThetaPhi')
-gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, spinThetaPhi({spin: Math.PI / 12.0}))
+gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, spinThetaPhi({spin: Math.PI / 4.0, theta: Math.PI / 4.0, phi: Math.PI / 4.0}))
 
 gl.drawArrays(gl.TRIANGLE_STRIP, 0, 3)
 
