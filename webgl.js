@@ -35,7 +35,7 @@ window.onresize = () => {
 const gl = canvas.getContext('webgl2')
 window.gl = gl
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-gl.clearColor(0.95, 0.95, 0.99, 1.0)
+gl.clearColor(0.95, 0.95, 1.0, 1.0)
 
 gl.vs = gl.createShader(gl.VERTEX_SHADER)
 gl.shaderSource(gl.vs, VSHADER_SOURCE)
@@ -52,7 +52,6 @@ gl.linkProgram(gl.exe)
 
 gl.enable(gl.CULL_FACE)
 gl.enable(gl.DEPTH_TEST)
-gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 /*
 ** #############
@@ -82,10 +81,9 @@ gl.bindVertexArray(gl.vao)
 */
 gl.uni = {}
 gl.uni.spinThetaPhi = gl.getUniformLocation(gl.exe, 'spinThetaPhi')
-gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, spinThetaPhi({spin: Math.PI / 4.0, theta: Math.PI / 4.0, phi: Math.PI / 4.0}))
-
-gl.drawArrays(gl.TRIANGLE_STRIP, 0, 3)
 
 export default function (hand) {
-  return true
+  gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, spinThetaPhi(hand))
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 14)
 }

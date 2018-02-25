@@ -48,10 +48,10 @@ const spinThetaPhi = function spinThetaPhi ({spin, theta, phi}) {
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 4; j++) {
       matrix[4 * i + j] =
-        matrixRotAU[4 * i + 0] * matrixRotZ[4 * 0 + j] +
-        matrixRotAU[4 * i + 1] * matrixRotZ[4 * 1 + j] +
-        matrixRotAU[4 * i + 2] * matrixRotZ[4 * 2 + j] +
-        matrixRotAU[4 * i + 3] * matrixRotZ[4 * 3 + j]
+        matrixRotZ[4 * i + 0] * matrixRotAU[4 * 0 + j] +
+        matrixRotZ[4 * i + 1] * matrixRotAU[4 * 1 + j] +
+        matrixRotZ[4 * i + 2] * matrixRotAU[4 * 2 + j] +
+        matrixRotZ[4 * i + 3] * matrixRotAU[4 * 3 + j]
     }
   }
   return matrix
