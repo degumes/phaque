@@ -1,7 +1,7 @@
 import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexData from './vertexData.js'
-import spinThetaPhi from './spinThetaPhi.js'
+import aimSpin from './aimSpin.js'
 
 /*
 ** ################
@@ -83,7 +83,7 @@ gl.uni = {}
 gl.uni.spinThetaPhi = gl.getUniformLocation(gl.exe, 'spinThetaPhi')
 
 export default function (hand) {
-  gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, spinThetaPhi(hand))
+  gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, aimSpin(hand))
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 14)
 }
