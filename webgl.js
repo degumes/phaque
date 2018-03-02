@@ -1,6 +1,7 @@
 import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
-import vertexData from './vertexData.js'
+import vertexSequence from './vertexSequence.js'
+import vertexCoordinates from './vertexCoordinates.js'
 import aimSpin from './aimSpin.js'
 
 /*
@@ -9,7 +10,7 @@ import aimSpin from './aimSpin.js'
 ** ################
 */
 let side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-side = 750
+side = 300
 const dpi = window.devicePixelRatio || 1
 const canvas = document.getElementById('handgl')
 canvas.width = side * dpi
@@ -63,13 +64,13 @@ gl.bindVertexArray(gl.vao)
 
 gl.vb = gl.createBuffer()
 gl.bindBuffer(gl.ARRAY_BUFFER, gl.vb)
-gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW)
+gl.bufferData(gl.ARRAY_BUFFER, vertexSequence, gl.STATIC_DRAW)
 
 gl.att = {}
-gl.att.position = gl.getAttribLocation(gl.exe, 'position')
-gl.enableVertexAttribArray(gl.att.position)
+gl.att.label = gl.getAttribLocation(gl.exe, 'label')
+gl.enableVertexAttribArray(gl.att.label)
 
-gl.vertexAttribPointer(gl.att.position, 4, gl.FLOAT, false, 4 * vertexData.BYTES_PER_ELEMENT, 0)
+gl.vertexAttribPointer(gl.att.label, 1, gl.FLOAT, false, vertexSequence.BYTES_PER_ELEMENT, 0)
 
 gl.useProgram(gl.exe)
 gl.bindVertexArray(gl.vao)
@@ -80,10 +81,22 @@ gl.bindVertexArray(gl.vao)
 ** #############
 */
 gl.uni = {}
-gl.uni.spinThetaPhi = gl.getUniformLocation(gl.exe, 'spinThetaPhi')
+
+gl.uni.vertexCoordinates = []
+for (let i = 0; i < 8; i++) {
+  console.log(`${i}`)
+  gl.uni.vertexCoordinates[i] = gl.getUniformLocation(gl.exe, `vertexCoordinates[${i}]`)
+  gl.uniform4f(gl.uni.vertexCoordinates[i],
+    vertexCoordinates[4 * i + 0],
+    vertexCoordinates[4 * i + 1],
+    vertexCoordinates[4 * i + 2],
+    vertexCoordinates[4 * i + 3])
+}
+
+gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 
 export default function (hand) {
-  gl.uniformMatrix4fv(gl.uni.spinThetaPhi, false, aimSpin(hand))
+  gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin(hand))
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 14)
 }
