@@ -2,6 +2,7 @@ import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
+import phalanxShift from './phalanxShift.js'
 import aimSpin from './aimSpin.js'
 
 /*
@@ -20,7 +21,7 @@ canvas.style.height = side * dpi * 2 + 'px'
 
 window.onresize = () => {
   side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-  side = 300
+  side = 400
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side * dpi * 2 + 'px'
@@ -84,7 +85,6 @@ gl.uni = {}
 
 gl.uni.vertexCoordinates = []
 for (let i = 0; i < 8; i++) {
-  console.log(`${i}`)
   gl.uni.vertexCoordinates[i] = gl.getUniformLocation(gl.exe, `vertexCoordinates[${i}]`)
   gl.uniform4f(gl.uni.vertexCoordinates[i],
     vertexCoordinates[4 * i + 0],
@@ -93,10 +93,20 @@ for (let i = 0; i < 8; i++) {
     vertexCoordinates[4 * i + 3])
 }
 
+gl.uni.phalanxShift = []
+for (let i = 0; i < 15; i++) {
+  gl.uni.phalanxShift[i] = gl.getUniformLocation(gl.exe, `phalanxShift[${i}]`)
+  gl.uniform4f(gl.uni.phalanxShift[i],
+    phalanxShift[4 * i + 0],
+    phalanxShift[4 * i + 1],
+    phalanxShift[4 * i + 2],
+    vertexCoordinates[4 * i + 3])
+}
+
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 
 export default function (hand) {
   gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin(hand))
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 14)
+  gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 12)
 }

@@ -3,6 +3,7 @@ in vec4 label;
 vec4 viewed;
 uniform mat4 aimSpin;
 uniform vec4 vertexCoordinates[8];
+uniform vec4 phalanxShift[15];
 out vec4 color;
 
 void main() {
@@ -14,10 +15,13 @@ void main() {
     color = vec4(0.1, 0.1, 0.1, 1.0);
   }
 
-  viewed = aimSpin * vertex;
-  gl_Position = vec4(viewed.xy / (0.25 * viewed.z + 1.0),viewed.zw);
+  //viewed = aimSpin * vertex + phalanxShift[gl_InstanceID];
+  //gl_Position = vec4(viewed.xy / (0.25 * viewed.z + 1.0),viewed.zw);
+
+  gl_Position = aimSpin * vertex + phalanxShift[gl_InstanceID];
 }`
 
 export default VSHADER_SOURCE
 
 // gl_Position = vec4(position.xy / zToDivideBy, position.zw)
+// flat out int instanceID = gl_InstanceID
