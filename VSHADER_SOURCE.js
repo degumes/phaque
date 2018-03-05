@@ -9,7 +9,7 @@ out vec4 color;
 void main() {
   vec4 vertex = vertexCoordinates[int(label)];
 
-  if (vertex.z < 0.0) {
+  if (vertex.z > 0.0) {
     color = vec4(1.0, 0.8, 0.8, 1.0);
   }else{
     color = vec4(0.1, 0.1, 0.1, 1.0);

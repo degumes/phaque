@@ -17,15 +17,15 @@ export default function () {
     }
   } else {
     return {
-      alpha: halfPI * pads[0].buttons[7].value, // R2
-      beta: halfPI * pads[0].buttons[6].value, // L2
-      gamma: halfPI * pads[0].axes[1], // LaV
-      eta: halfPI * pads[0].axes[0], // LaH
-      theta: halfPI * pads[0].axes[3], // RaV
-      phi: halfPI * pads[0].axes[2], // RaH
+      alpha: halfPI * pads[0].buttons[7].value.toFixed(2), // R2
+      beta: halfPI * pads[0].buttons[6].value.toFixed(2), // L2
+      gamma: halfPI * pads[0].axes[1].toFixed(2), // LaV
+      eta: halfPI * pads[0].axes[0].toFixed(2), // LaH
+      theta: halfPI * pads[0].axes[3].toFixed(2), // RaV
+      phi: halfPI * pads[0].axes[2].toFixed(2), // RaH
       l3: pads[0].buttons[10].pressed,
       r3: pads[0].buttons[11].pressed,
-      spin: halfPI * (pads[0].buttons[7].value - pads[0].buttons[6].value),
+      spin: halfPI * (pads[0].buttons[7].value - pads[0].buttons[6].value).toFixed(2),
       up: pads[0].buttons[5].pressed,
       down: pads[0].buttons[4].pressed
     }
