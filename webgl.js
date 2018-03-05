@@ -100,7 +100,7 @@ for (let i = 0; i < 15; i++) {
     phalanxShift[4 * i + 0],
     phalanxShift[4 * i + 1],
     phalanxShift[4 * i + 2],
-    vertexCoordinates[4 * i + 3])
+    phalanxShift[4 * i + 3])
 }
 
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')

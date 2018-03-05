@@ -15,10 +15,8 @@ void main() {
     color = vec4(0.1, 0.1, 0.1, 1.0);
   }
 
-  //viewed = aimSpin * vertex + phalanxShift[gl_InstanceID];
-  //gl_Position = vec4(viewed.xy / (0.25 * viewed.z + 1.0),viewed.zw);
-
-  gl_Position = aimSpin * vertex + phalanxShift[gl_InstanceID];
+  viewed = aimSpin * (vertex + phalanxShift[gl_InstanceID]);
+  gl_Position = vec4(viewed.xy / (0.25 * viewed.z + 1.0),viewed.zw);
 }`
 
 export default VSHADER_SOURCE
