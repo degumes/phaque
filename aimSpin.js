@@ -41,7 +41,7 @@ const rotAU = function rotAU () {
   matrixRotAU[9] = oc * au[3] * au[2] + au[1] * s
   matrixRotAU[10] = oc * au[3] * au[3] + c
 }
-const aimSpin = function aimSpin ({theta, phi, spin}) {
+const updater = function updater ({theta, phi, spin}) {
   rotZ(spin)
   thetaPhi2AU({theta, phi})
   rotAU()// Rotation matrix from axis U and angle A
@@ -62,8 +62,6 @@ const aimSpin = function aimSpin ({theta, phi, spin}) {
   // matrix[13] = 0
   // matrix[14] = 0
   // matrix[15] = 1
-
-  return matrix
 }
 
-export default aimSpin
+export {matrix, updater}
