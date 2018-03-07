@@ -3,7 +3,7 @@ import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
 import hadChanged from './hadChanged.js'
-import phalanxShift from './phalanxShift.js'
+import * as tiltShift from './tiltShift.js'
 import * as aimSpin from './aimSpin.js'
 
 /*
@@ -94,14 +94,10 @@ for (let i = 0; i < 8; i++) {
     vertexCoordinates[4 * i + 3])
 }
 
-gl.uni.phalanxShift = []
+gl.uni.tiltShift = []
 for (let i = 0; i < 15; i++) {
-  gl.uni.phalanxShift[i] = gl.getUniformLocation(gl.exe, `phalanxShift[${i}]`)
-  gl.uniform4f(gl.uni.phalanxShift[i],
-    phalanxShift[4 * i + 0],
-    phalanxShift[4 * i + 1],
-    phalanxShift[4 * i + 2],
-    phalanxShift[4 * i + 3])
+  gl.uni.tiltShift[i] = gl.getUniformLocation(gl.exe, `tiltShift[${i}]`)
+  gl.uniformMatrix4fv(gl.uni.tiltShift[i], false, tiltShift.matrixes[i])
 }
 
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
@@ -112,6 +108,6 @@ export default function (hand) {
     aimSpin.updater(hand)
     gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 12)
+    gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 15)
   }
 }
