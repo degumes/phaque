@@ -2,6 +2,7 @@ import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
+import hadChanged from './hadChanged.js'
 import phalanxShift from './phalanxShift.js'
 import * as aimSpin from './aimSpin.js'
 
@@ -104,10 +105,13 @@ for (let i = 0; i < 15; i++) {
 }
 
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
+const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
 
 export default function (hand) {
-  aimSpin.updater(hand)
-  gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-  gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 12)
+  if (checkAimSpin(hand)) {
+    aimSpin.updater(hand)
+    gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 12)
+  }
 }
