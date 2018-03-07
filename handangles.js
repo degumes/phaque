@@ -4,10 +4,13 @@ const Hand = {
   phi: 0,
   theta: 0,
   anchor: {x: 0, y: 0, z: 0},
+  activeFinger: {
+    id: 0,
+    editing: false
+  },
   fingers: [
     {
       name: 'thumb',
-      type: 'green',
       angles: {
         alpha: 0,
         beta: 0,
@@ -17,7 +20,6 @@ const Hand = {
     },
     {
       name: 'index',
-      type: 'blue',
       angles: {
         alpha: 0,
         beta: 0,
@@ -27,7 +29,6 @@ const Hand = {
     },
     {
       name: 'middle',
-      type: 'blue',
       angles: {
         alpha: 0,
         beta: 0,
@@ -37,7 +38,6 @@ const Hand = {
     },
     {
       name: 'ring',
-      type: 'blue',
       angles: {
         alpha: 0,
         beta: 0,
@@ -47,7 +47,6 @@ const Hand = {
     },
     {
       name: 'pinky',
-      type: 'blue',
       angles: {
         alpha: 0,
         beta: 0,

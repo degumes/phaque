@@ -27,7 +27,8 @@ function sceneA () {
       key: 'l3',
       sensor: mkhs(() => {
         currentRender = 1
-        hand.fingers[currentFinger].type = 'red'
+        hand.activeFinger.id = currentFinger
+        hand.activeFinger.editing = true
         console.log(`going to scene: B currentFinger: ${currentFinger}`)
       })
     },
@@ -35,9 +36,8 @@ function sceneA () {
       key: 'r3',
       sensor: mkhs(() => {
         currentRender = 2
-        hand.fingers.forEach(f => {
-          f.type = 'red'
-        })
+        hand.activeFinger.id = 5
+        hand.activeFinger.editing = true
         accSpin = hand.spin
         accPhi = hand.phi
         accTheta = hand.theta
@@ -52,8 +52,7 @@ function sceneA () {
         if (currentFinger === 5) {
           currentFinger = 0
         }
-        hand.fingers[lastFinger].type = 'blue'
-        hand.fingers[currentFinger].type = 'green'
+        hand.activeFinger.id = currentFinger
         console.log(`currentFinger: ${currentFinger}`)
       })
     },
@@ -66,8 +65,7 @@ function sceneA () {
         } else {
           currentFinger--
         }
-        hand.fingers[lastFinger].type = 'blue'
-        hand.fingers[currentFinger].type = 'green'
+        hand.activeFinger.id = currentFinger
         console.log(`currentFinger: ${currentFinger}`)
       })
     }
@@ -88,7 +86,7 @@ function sceneB () {
       key: 'r3',
       sensor: mkhs(() => {
         currentRender = 0
-        hand.fingers[currentFinger].type = 'green'
+        hand.activeFinger.editing = false
         console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
       })
     },
@@ -132,10 +130,8 @@ function sceneC () {
       key: 'l3',
       sensor: mkhs(() => {
         currentRender = 0
-        hand.fingers.forEach(f => {
-          f.type = 'blue'
-        })
-        hand.fingers[currentFinger].type = 'green'
+        hand.activeFinger.id = currentFinger
+        hand.activeFinger.editing = false
 
         console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
       })
