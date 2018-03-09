@@ -3,7 +3,7 @@ import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
 import hadChanged from './hadChanged.js'
-import * as tiltShift from './tiltShift.js'
+import * as shiftTilt from './shiftTilt.js'
 import * as aimSpin from './aimSpin.js'
 
 /*
@@ -94,10 +94,10 @@ for (let i = 0; i < 8; i++) {
     vertexCoordinates[4 * i + 3])
 }
 
-gl.uni.tiltShift = []
+gl.uni.shiftTilt = []
 for (let i = 0; i < 15; i++) {
-  gl.uni.tiltShift[i] = gl.getUniformLocation(gl.exe, `tiltShift[${i}]`)
-  gl.uniformMatrix4fv(gl.uni.tiltShift[i], false, tiltShift.matrixes[i])
+  gl.uni.shiftTilt[i] = gl.getUniformLocation(gl.exe, `shiftTilt[${i}]`)
+  gl.uniformMatrix4fv(gl.uni.shiftTilt[i], false, shiftTilt.matrixes[i])
 }
 
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')

@@ -1,12 +1,16 @@
 const VSHADER_SOURCE = `#version 300 es
 in vec4 label;
 uniform mat4 aimSpin;
-uniform mat4 tiltShift[15];
+uniform mat4 shiftTilt[15];
 uniform vec4 vertexCoordinates[8];
 out vec4 color;
 
 void main() {
   vec4 vertex = vertexCoordinates[int(label)];
+  int finger = gl_InstanceID / 3;
+  int pad = gl_InstanceID - 3 * finger;
+  vec4 shiftTilted;
+  vec4 aimSpined;
   vec4 viewed;
 
   if (vertex.z > 0.0) {
@@ -15,8 +19,20 @@ void main() {
     color = vec4(0.1, 0.1, 0.1, 1.0);
   }
 
-  viewed = aimSpin * tiltShift[gl_InstanceID] * vertex;
-  gl_Position = vec4(viewed.xy / (0.25 * viewed.z + 1.0),viewed.zw);
+  switch (pad) {
+    case 2:
+      shiftTilted = shiftTilt[3 * finger + 2] * vertex;
+    break;
+    case 1:
+      shiftTilted = shiftTilt[3 * finger + 1] * vertex;
+    break;
+    case 0:
+      shiftTilted = shiftTilt[3 * finger + 0] * vertex;
+    break;
+  }
+  aimSpined = aimSpin * shiftTilted;
+  viewed = vec4(aimSpined.xy / (0.25 * aimSpined.z + 1.0), aimSpined.zw);
+  gl_Position = viewed;
 }`
 
 export default VSHADER_SOURCE
