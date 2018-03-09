@@ -19,16 +19,14 @@ void main() {
     color = vec4(0.1, 0.1, 0.1, 1.0);
   }
 
+  shiftTilted = vertex;
   switch (pad) {
     case 2:
-      shiftTilted = shiftTilt[3 * finger + 2] * vertex;
-    break;
+      shiftTilted = shiftTilt[3 * finger + 2] * shiftTilted;
     case 1:
-      shiftTilted = shiftTilt[3 * finger + 1] * vertex;
-    break;
+      shiftTilted = shiftTilt[3 * finger + 1] * shiftTilted;
     case 0:
-      shiftTilted = shiftTilt[3 * finger + 0] * vertex;
-    break;
+      shiftTilted = shiftTilt[3 * finger + 0] * shiftTilted;
   }
   aimSpined = aimSpin * shiftTilted;
   viewed = vec4(aimSpined.xy / (0.25 * aimSpined.z + 1.0), aimSpined.zw);
