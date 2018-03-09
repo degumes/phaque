@@ -2,7 +2,7 @@
 
 ## ToDo
 * [x] add spin to hand
-* [ ] camera rotation theta-phi
-* [ ] dedoedro vertex remodeled
-* [ ] 15 dedoedro in bone positioned
+* [x] camera rotation theta-phi
+* [x] dedoedro vertex remodeled
+* [x] 15 dedoedro in bone positioned
 * [ ] independent finger snailed
