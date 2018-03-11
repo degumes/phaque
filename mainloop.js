@@ -27,6 +27,7 @@ import drawgl from './webgl.js'
 
       // form
       // draw to canvas
+	  /*
       document.getElementById('spin').innerText = hand.spin.toFixed(2)
       document.getElementById('theta').innerText = hand.theta.toFixed(2)
       document.getElementById('phi').innerText = hand.phi.toFixed(2)
@@ -43,6 +44,7 @@ import drawgl from './webgl.js'
         document.getElementById(hand.fingers[i].name + 'gamma').innerText = hand.fingers[i].angles.gamma.toFixed(2)
         document.getElementById(hand.fingers[i].name + 'eta').innerText = hand.fingers[i].angles.eta.toFixed(2)
       }
+	  */
 
       // loop
       window.requestAnimationFrame(gl)
