@@ -12,7 +12,6 @@ import * as aimSpin from './aimSpin.js'
 ** ################
 */
 let side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-side = 400
 const dpi = window.devicePixelRatio || 1
 const canvas = document.getElementById('handgl')
 canvas.width = side * dpi
@@ -22,7 +21,6 @@ canvas.style.height = side * dpi * 2 + 'px'
 
 window.onresize = () => {
   side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-  side = 400
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side * dpi * 2 + 'px'
