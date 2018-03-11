@@ -1,119 +1,93 @@
 const matrixes = []
+for (let i = 0; i < 15; i++ ) {
+  matrixes.push(new Float32Array([
+	1.0, 0.0, 0.0, 0.0,
+	0.0, 1.0, 0.0, 0.0,
+	0.0, 0.0, 1.0, 0.0,
+	0.0, 0.0, 0.0, 1.0
+  ]))
+}
+const mkNiGammaUpdater = idx => ({eta, gamma}) => {
+  const ce = Math.cos(eta)
+  const se = Math.sin(eta)
+  const cg = Math.cos(gamma)
+  const sg = Math.sin(gamma)
+  matrixes[idx][0] = ce
+  matrixes[idx][1] = se
+  matrixes[idx][4] = -se * cg
+  matrixes[idx][5] = ce * cg
+  matrixes[idx][6] =  sg
+  matrixes[idx][8] = se * sg
+  matrixes[idx][9] = -ce * sg
+  matrixes[idx][10] = cg
+}
+const mkBetaUpdater = idx => ({beta}) => {
+  const cb = Math.cos(beta)
+  const sb = Math.sin(beta)
+  matrixes[idx][5] = cb
+  matrixes[idx][6] = sb
+  matrixes[idx][9] = -sb
+  matrixes[idx][10] = cb
+}
+const mkAlphaUpdater = idx => ({alpha}) => {
+  const ca = Math.cos(alpha)
+  const sa = Math.sin(alpha)
+  matrixes[idx][5] = ca
+  matrixes[idx][6] = sa
+  matrixes[idx][9] = -sa
+  matrixes[idx][10] = ca
+}
+const updateres = []
+updateres.push(mkNiGammaUpdater(0))
+updateres.push(mkBetaUpdater(1))
+updateres.push(mkAlphaUpdater(2))
+updateres.push(mkNiGammaUpdater(3))
+updateres.push(mkBetaUpdater(4))
+updateres.push(mkAlphaUpdater(5))
+updateres.push(mkNiGammaUpdater(6))
+updateres.push(mkBetaUpdater(7))
+updateres.push(mkAlphaUpdater(8))
+updateres.push(mkNiGammaUpdater(9))
+updateres.push(mkBetaUpdater(10))
+updateres.push(mkAlphaUpdater(11))
+updateres.push(mkNiGammaUpdater(12))
+updateres.push(mkBetaUpdater(13))
+updateres.push(mkAlphaUpdater(14))
+
 const scl = 400
 const padY = 350 / 3 / scl
-const a = Math.PI / 4
-const tilt = [
-  [0, 0, 0, a],
-  [-a, a, a, a],
-  [0, 0, 0, a],
-  [0, 0, a, 0],
-  [a, a, a, a]
-  // [ni, gamma, beta, alpha]
-]
+// thumb.pad[0]
+matrixes[0][12] = (100 + 500 / 3) / scl
+matrixes[0][13] =  -250 / scl
+// thumb.pad[1]
+matrixes[1][13] = padY
+// thumb.pad[2]
+matrixes[2][13] = padY
 
-// thumb
-matrixes.push(new Float32Array([
-  Math.cos(tilt[0][0]), Math.sin(tilt[0][0]), 0.0, 0.0,
-  -Math.sin(tilt[0][0]) * Math.cos(tilt[0][1]), Math.cos(tilt[0][0]) * Math.cos(tilt[0][1]), Math.sin(tilt[0][1]), 0.0,
-  Math.sin(tilt[0][0]) * Math.sin(tilt[0][1]), -Math.cos(tilt[0][0]) * Math.sin(tilt[0][1]), Math.cos(tilt[0][1]), 0.0,
-  (100 + 500 / 3) / scl, -250 / scl, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[0][2]), Math.sin(tilt[0][2]), 0.0,
-  0.0, -Math.sin(tilt[0][2]), Math.cos(tilt[0][2]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[0][3]), Math.sin(tilt[0][3]), 0.0,
-  0.0, -Math.sin(tilt[0][3]), Math.cos(tilt[0][3]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
+// index.pad[0]
+matrixes[3][12] = 100 / scl
+// index.pad[1]
+matrixes[4][13] = padY
+// index.pad[2]
+matrixes[5][13] = padY
 
-// index
-matrixes.push(new Float32Array([
-  Math.cos(tilt[1][0]), Math.sin(tilt[1][0]), 0.0, 0.0,
-  -Math.sin(tilt[1][0]) * Math.cos(tilt[1][1]), Math.cos(tilt[1][0]) * Math.cos(tilt[1][1]), Math.sin(tilt[1][1]), 0.0,
-  Math.sin(tilt[1][0]) * Math.sin(tilt[1][1]), -Math.cos(tilt[1][0]) * Math.sin(tilt[1][1]), Math.cos(tilt[1][1]), 0.0,
-  100 / scl, 0.0, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[1][2]), Math.sin(tilt[1][2]), 0.0,
-  0.0, -Math.sin(tilt[1][2]), Math.cos(tilt[1][2]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[1][3]), Math.sin(tilt[1][3]), 0.0,
-  0.0, -Math.sin(tilt[1][3]), Math.cos(tilt[1][3]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
+// middle.pad[1]
+matrixes[7][13] = padY
+// middle.pad[2]
+matrixes[8][13] = padY
 
-// middle
-matrixes.push(new Float32Array([
-  Math.cos(tilt[2][0]), Math.sin(tilt[2][0]), 0.0, 0.0,
-  -Math.sin(tilt[2][0]) * Math.cos(tilt[2][1]), Math.cos(tilt[2][0]) * Math.cos(tilt[2][1]), Math.sin(tilt[2][1]), 0.0,
-  Math.sin(tilt[2][0]) * Math.sin(tilt[2][1]), -Math.cos(tilt[2][0]) * Math.sin(tilt[2][1]), Math.cos(tilt[2][1]), 0.0,
-  0.0, 0.0, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[2][2]), Math.sin(tilt[2][2]), 0.0,
-  0.0, -Math.sin(tilt[2][2]), Math.cos(tilt[2][2]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[2][3]), Math.sin(tilt[2][3]), 0.0,
-  0.0, -Math.sin(tilt[2][3]), Math.cos(tilt[2][3]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
+// ring.pad[0]
+matrixes[9][12] = -100 / scl
+// ring.pad[1]
+matrixes[10][13] = padY
+// ring.pad[2]
+matrixes[11][13] = padY
 
-// ring
-matrixes.push(new Float32Array([
-  Math.cos(tilt[3][0]), Math.sin(tilt[3][0]), 0.0, 0.0,
-  -Math.sin(tilt[3][0]) * Math.cos(tilt[3][1]), Math.cos(tilt[3][0]) * Math.cos(tilt[3][1]), Math.sin(tilt[3][1]), 0.0,
-  Math.sin(tilt[3][0]) * Math.sin(tilt[3][1]), -Math.cos(tilt[3][0]) * Math.sin(tilt[3][1]), Math.cos(tilt[3][1]), 0.0,
-  -100 / scl, 0.0, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[3][2]), Math.sin(tilt[3][2]), 0.0,
-  0.0, -Math.sin(tilt[3][2]), Math.cos(tilt[3][2]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[3][3]), Math.sin(tilt[3][3]), 0.0,
-  0.0, -Math.sin(tilt[3][3]), Math.cos(tilt[3][3]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-
-// pinky
-matrixes.push(new Float32Array([
-  Math.cos(tilt[4][0]), Math.sin(tilt[4][0]), 0.0, 0.0,
-  -Math.sin(tilt[4][0]) * Math.cos(tilt[4][1]), Math.cos(tilt[4][0]) * Math.cos(tilt[4][1]), Math.sin(tilt[4][1]), 0.0,
-  Math.sin(tilt[4][0]) * Math.sin(tilt[4][1]), -Math.cos(tilt[4][0]) * Math.sin(tilt[4][1]), Math.cos(tilt[4][1]), 0.0,
-  -200 / scl, 0.0, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[4][2]), Math.sin(tilt[4][2]), 0.0,
-  0.0, -Math.sin(tilt[4][2]), Math.cos(tilt[4][2]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-matrixes.push(new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, Math.cos(tilt[4][3]), Math.sin(tilt[4][3]), 0.0,
-  0.0, -Math.sin(tilt[4][3]), Math.cos(tilt[4][3]), 0.0,
-  0.0, padY, 0.0, 1.0
-]))
-
-const updateres = []
-for (let i = 0; i < 15; i++) {
-  updateres.push(({alpha, beta, gamma, eta}) => {})
-}
+// ring.pad[0]
+matrixes[12][12] = -200 / scl
+// ring.pad[1]
+matrixes[13][13] = padY
+// ring.pad[2]
+matrixes[14][13] = padY
 
 export {matrixes, updateres}

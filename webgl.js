@@ -94,20 +94,57 @@ for (let i = 0; i < 8; i++) {
     vertexCoordinates[4 * i + 3])
 }
 
+gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
+
 gl.uni.shiftTilt = []
 for (let i = 0; i < 15; i++) {
   gl.uni.shiftTilt[i] = gl.getUniformLocation(gl.exe, `shiftTilt[${i}]`)
-  gl.uniformMatrix4fv(gl.uni.shiftTilt[i], false, shiftTilt.matrixes[i])
 }
 
-gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
-const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
-
+gl.shiftTilt = shiftTilt
+window.hand = {}
+window.handSeted = false
 export default function (hand) {
+  aimSpin.updater(hand)
+  gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
+  for (let i = 0; i < 5; i++) {
+	  
+    shiftTilt.updateres[3 * i](hand.fingers[i].angles)
+	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i], false, shiftTilt.matrixes[3 * i])
+	
+	shiftTilt.updateres[3 * i + 1](hand.fingers[i].angles)
+	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 1], false, shiftTilt.matrixes[3 * i + 1])
+	
+	shiftTilt.updateres[3 * i + 2](hand.fingers[i].angles)
+	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 2], false, shiftTilt.matrixes[3 * i + 2])
+  }
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+  gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 15)
+}
+
+/*
+
+  if (window.handSeted !== true) {
+    window.hand = hand
+	window.handSeted = true
+  }
+  
+  aimSpin.updater(hand)
+  gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
+  for (let i = 0; i < 15; i++) {
+    shiftTilt.updateres[i](hand.fingers[i])
+	gl.uniformMatrix4fv(gl.uni.shiftTilt[i], false, shiftTilt.matrixes[i])
+  }
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+  gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 15)
+  
+const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
   if (checkAimSpin(hand)) {
     aimSpin.updater(hand)
     gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 15)
   }
-}
+*/
