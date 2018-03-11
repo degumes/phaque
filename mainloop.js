@@ -25,27 +25,6 @@ import drawgl from './webgl.js'
       // webgl draw
       drawgl(hand)
 
-      // form
-      // draw to canvas
-	  /*
-      document.getElementById('spin').innerText = hand.spin.toFixed(2)
-      document.getElementById('theta').innerText = hand.theta.toFixed(2)
-      document.getElementById('phi').innerText = hand.phi.toFixed(2)
-      for (let i = 0; i < hand.fingers.length; i++) {
-        if (hand.activeFinger.id === 5 || (hand.activeFinger.editing && hand.activeFinger.id === i)) {
-          document.getElementById(hand.fingers[i].name).style.backgroundColor = 'red'
-        } else if (hand.activeFinger.id === i) {
-          document.getElementById(hand.fingers[i].name).style.backgroundColor = 'green'
-        } else {
-          document.getElementById(hand.fingers[i].name).style.backgroundColor = 'blue'
-        }
-        document.getElementById(hand.fingers[i].name + 'alpha').innerText = hand.fingers[i].angles.alpha.toFixed(2)
-        document.getElementById(hand.fingers[i].name + 'beta').innerText = hand.fingers[i].angles.beta.toFixed(2)
-        document.getElementById(hand.fingers[i].name + 'gamma').innerText = hand.fingers[i].angles.gamma.toFixed(2)
-        document.getElementById(hand.fingers[i].name + 'eta').innerText = hand.fingers[i].angles.eta.toFixed(2)
-      }
-	  */
-
       // loop
       window.requestAnimationFrame(gl)
     }
