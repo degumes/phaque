@@ -36,7 +36,7 @@ import drawgl from './webgl.js'
 	  document.getElementById('clickfullscreen').onclick = e => {
 		e.srcElement.parentElement.style.display = 'none'
 		window.gl.canvas.webkitRequestFullScreen()
-		window.onresize()
+		setTimeout(window.onresize, 8)
 		window.requestAnimationFrame(gl)
 	  }
   }
