@@ -11,20 +11,17 @@ import * as aimSpin from './aimSpin.js'
 ** # SETUP CANVAS #
 ** ################
 */
-let side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-const dpi = window.devicePixelRatio || 1
 const canvas = document.getElementById('handgl')
-canvas.width = side * dpi
-canvas.height = side * dpi
-canvas.style.width = side * dpi + 'px'
-canvas.style.height = side * dpi + 'px'
+const dpi = window.devicePixelRatio || 1
+console.log(dpi)
 
 window.onresize = () => {
-  side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+	console.log('resize')
+  const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
   canvas.width = side * dpi
   canvas.height = side * dpi
-  canvas.style.width = side * dpi + 'px'
-  canvas.style.height = side * dpi + 'px'
+  canvas.style.width = side + 'px'
+  canvas.style.height = side + 'px'
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 }
 
