@@ -103,15 +103,14 @@ export default function (hand) {
   aimSpin.updater(hand)
   gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
   for (let i = 0; i < 5; i++) {
-	  
     shiftTilt.updateres[3 * i](hand.fingers[i].angles)
-	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i], false, shiftTilt.matrixes[3 * i])
-	
-	shiftTilt.updateres[3 * i + 1](hand.fingers[i].angles)
-	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 1], false, shiftTilt.matrixes[3 * i + 1])
-	
-	shiftTilt.updateres[3 * i + 2](hand.fingers[i].angles)
-	gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 2], false, shiftTilt.matrixes[3 * i + 2])
+    gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i], false, shiftTilt.matrixes[3 * i])
+
+    shiftTilt.updateres[3 * i + 1](hand.fingers[i].angles)
+    gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 1], false, shiftTilt.matrixes[3 * i + 1])
+
+    shiftTilt.updateres[3 * i + 2](hand.fingers[i].angles)
+    gl.uniformMatrix4fv(gl.uni.shiftTilt[3 * i + 2], false, shiftTilt.matrixes[3 * i + 2])
   }
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
@@ -124,7 +123,7 @@ export default function (hand) {
     window.hand = hand
 	window.handSeted = true
   }
-  
+
   aimSpin.updater(hand)
   gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
   for (let i = 0; i < 15; i++) {
@@ -134,7 +133,7 @@ export default function (hand) {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
   gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 14, 15)
-  
+
 const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
   if (checkAimSpin(hand)) {
     aimSpin.updater(hand)
