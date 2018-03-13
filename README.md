@@ -8,3 +8,7 @@
 * [x] independent finger snailed
 
 ## ToDo beta
+* [ ] only update changed matrix
+* [ ] joint space
+* [ ] colored fingers
+* [ ] SW 10%
