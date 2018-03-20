@@ -79,15 +79,8 @@ gl.bindVertexArray(gl.vao)
 */
 gl.uni = {}
 
-gl.uni.vertexCoordinates = []
-for (let i = 0; i < 8; i++) {
-  gl.uni.vertexCoordinates[i] = gl.getUniformLocation(gl.exe, `vertexCoordinates[${i}]`)
-  gl.uniform4f(gl.uni.vertexCoordinates[i],
-    vertexCoordinates[4 * i + 0],
-    vertexCoordinates[4 * i + 1],
-    vertexCoordinates[4 * i + 2],
-    vertexCoordinates[4 * i + 3])
-}
+gl.uni.vertexCoordinates = gl.getUniformLocation(gl.exe, `vertexCoordinates`)
+gl.uniform4fv(gl.uni.vertexCoordinates, vertexCoordinates)
 
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
