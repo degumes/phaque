@@ -1,10 +1,10 @@
 const matrixes = []
-for (let i = 0; i < 15; i++ ) {
+for (let i = 0; i < 15; i++) {
   matrixes.push(new Float32Array([
-	1.0, 0.0, 0.0, 0.0,
-	0.0, 1.0, 0.0, 0.0,
-	0.0, 0.0, 1.0, 0.0,
-	0.0, 0.0, 0.0, 1.0
+    1.0, 0.0, 0.0, 0.0,
+    0.0, 1.0, 0.0, 0.0,
+    0.0, 0.0, 1.0, 0.0,
+    0.0, 0.0, 0.0, 1.0
   ]))
 }
 const mkNiGammaUpdater = idx => ({eta, gamma}) => {
@@ -16,7 +16,7 @@ const mkNiGammaUpdater = idx => ({eta, gamma}) => {
   matrixes[idx][1] = se
   matrixes[idx][4] = -se * cg
   matrixes[idx][5] = ce * cg
-  matrixes[idx][6] =  sg
+  matrixes[idx][6] = sg
   matrixes[idx][8] = se * sg
   matrixes[idx][9] = -ce * sg
   matrixes[idx][10] = cg
@@ -54,11 +54,12 @@ updateres.push(mkNiGammaUpdater(12))
 updateres.push(mkBetaUpdater(13))
 updateres.push(mkAlphaUpdater(14))
 
+/*
 const scl = 400
 const padY = 350 / 3 / scl
 // thumb.pad[0]
 matrixes[0][12] = (100 + 500 / 3) / scl
-matrixes[0][13] =  -250 / scl
+matrixes[0][13] = -250 / scl
 // thumb.pad[1]
 matrixes[1][13] = padY
 // thumb.pad[2]
@@ -89,5 +90,6 @@ matrixes[12][12] = -200 / scl
 matrixes[13][13] = padY
 // ring.pad[2]
 matrixes[14][13] = padY
+*/
 
 export {matrixes, updateres}

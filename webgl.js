@@ -2,8 +2,9 @@ import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
+import shiftPad from './shiftPad.js'
 import hadChanged from './hadChanged.js'
-import * as shiftTilt from './shiftTilt.js'
+import * as tilt from './tilt.js'
 import * as aimSpin from './aimSpin.js'
 
 /*
@@ -82,12 +83,15 @@ gl.uni = {}
 gl.uni.vertexCoordinates = gl.getUniformLocation(gl.exe, `vertexCoordinates`)
 gl.uniform4fv(gl.uni.vertexCoordinates, vertexCoordinates)
 
+gl.uni.shiftPad = gl.getUniformLocation(gl.exe, `shiftPad`)
+gl.uniform2fv(gl.uni.shiftPad, shiftPad)
+
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
 
-gl.uni.shiftTilt = []
+gl.uni.tilt = []
 for (let i = 0; i < 15; i++) {
-  gl.uni.shiftTilt[i] = gl.getUniformLocation(gl.exe, `shiftTilt[${i}]`)
+  gl.uni.tilt[i] = gl.getUniformLocation(gl.exe, `tilt[${i}]`)
 }
 const checkPads = []
 checkPads.push(hadChanged({eta: Infinity, gamma: Infinity}))
@@ -121,8 +125,8 @@ export default function (hand) {
   for (let i = 0; i < 15; i++) {
     const angles = hand.fingers[Math.trunc(i / 3)].angles
     if (checkPads[i](angles)) {
-      shiftTilt.updateres[i](angles)
-      gl.uniformMatrix4fv(gl.uni.shiftTilt[i], false, shiftTilt.matrixes[i])
+      tilt.updateres[i](angles)
+      gl.uniformMatrix4fv(gl.uni.tilt[i], false, tilt.matrixes[i])
       needDraw = true
     }
   }
@@ -130,3 +134,12 @@ export default function (hand) {
     gl.draw()
   }
 }
+
+/*
+** DEBUGS
+var compiled = gl.getShaderParameter(Shader, gl.COMPILE_STATUS)
+var error = gl.getShaderInfoLog(Shader)
+gl.deleteShader(Shader)
+var linked = gl.getProgramParameter(program, gl.LINK_STATUS)
+var error = gl.getProgramInfoLog(program)
+*/
