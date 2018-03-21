@@ -9,6 +9,6 @@
 
 ## ToDo beta
 * [x] only update changed matrix
-* [ ] joint space
+* [x] joint space
 * [ ] colored fingers
 * [ ] SW 10%
