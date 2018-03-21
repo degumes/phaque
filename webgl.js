@@ -18,8 +18,7 @@ const dpi = window.devicePixelRatio || 1
 console.log(dpi)
 
 window.onresize = () => {
-  // const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
-  const side = 400
+  const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side + 'px'
