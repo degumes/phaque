@@ -2,6 +2,7 @@ import VSHADER_SOURCE from './VSHADER_SOURCE.js'
 import FSHADER_SOURCE from './FSHADER_SOURCE.js'
 import vertexSequence from './vertexSequence.js'
 import vertexCoordinates from './vertexCoordinates.js'
+import padHeight from './padHeight.js'
 import shiftPad from './shiftPad.js'
 import hadChanged from './hadChanged.js'
 import * as tilt from './tilt.js'
@@ -17,7 +18,8 @@ const dpi = window.devicePixelRatio || 1
 console.log(dpi)
 
 window.onresize = () => {
-  const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+  // const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+  const side = 400
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side + 'px'
@@ -82,6 +84,9 @@ gl.uni = {}
 
 gl.uni.vertexCoordinates = gl.getUniformLocation(gl.exe, `vertexCoordinates`)
 gl.uniform4fv(gl.uni.vertexCoordinates, vertexCoordinates)
+
+gl.uni.padHeight = gl.getUniformLocation(gl.exe, `padHeight`)
+gl.uniform1fv(gl.uni.padHeight, padHeight)
 
 gl.uni.shiftPad = gl.getUniformLocation(gl.exe, `shiftPad`)
 gl.uniform2fv(gl.uni.shiftPad, shiftPad)

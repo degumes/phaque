@@ -2,7 +2,8 @@ const VSHADER_SOURCE = `#version 300 es
 in vec4 label;
 uniform mat4 aimSpin;
 uniform mat4 tilt[15];
-uniform vec2 shiftPad[15];
+uniform float padHeight[15];
+uniform vec2 shiftPad[5];
 uniform vec4 vertexCoordinates[8];
 out vec4 color;
 
@@ -19,15 +20,19 @@ void main() {
 
   switch (pad) {
     case 2:
-      vertex.xy = vertex.xy + shiftPad[3 * finger + 2];
+      vertex.y = vertex.y + padHeight[3 * finger + 2] / 2.0;
       vertex = tilt[3 * finger + 2] * vertex;
+      vertex.y = vertex.y + padHeight[3 * finger + 1] / 2.0;
     case 1:
-      vertex.xy = vertex.xy + shiftPad[3 * finger + 1];
+      vertex.y = vertex.y + padHeight[3 * finger + 1] / 2.0;
       vertex = tilt[3 * finger + 1] * vertex;
+      vertex.y = vertex.y + padHeight[3 * finger + 0] / 2.0;
     case 0:
-      vertex.xy = vertex.xy + shiftPad[3 * finger];
-      vertex = tilt[3 * finger + 0] * vertex;
+      vertex.y = vertex.y + padHeight[3 * finger + 0] / 2.0;
+      vertex = tilt[3 * finger] * vertex;
+      vertex.xy = vertex.xy + shiftPad[finger];
   }
+
 
   vertex = aimSpin * vertex;
 
@@ -37,3 +42,4 @@ void main() {
 export default VSHADER_SOURCE
 
 // gl_Position = vec4(position.xy / zToDivideBy, position.zw)
+// vertex.y = vertex.y +- shiftPad[3 * finger + 1].y;
