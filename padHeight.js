@@ -1,21 +1,21 @@
-const oneThird = 1.0 / 3.0
+const size = 1.0 / 4.0
 
 const padHeight = new Float32Array([
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird,
-  oneThird
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size,
+  size
 ])
 
 export default padHeight
