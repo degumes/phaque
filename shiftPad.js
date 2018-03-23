@@ -1,6 +1,6 @@
 const shiftHand = new Float32Array([
   // thumb
-  0.5, -Math.SQRT1_2,
+  0.25, -Math.SQRT1_2,
   // index
   0.25, 0.0,
   // middle
