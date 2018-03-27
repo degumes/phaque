@@ -27,8 +27,8 @@ function sceneA () {
       key: 'l3',
       sensor: mkhs(() => {
         currentRender = 1
-        hand.activeFinger.id = currentFinger
-        hand.activeFinger.editing = true
+        hand.currentFinger.id = currentFinger
+        hand.currentFinger.editing = true
         console.log(`going to scene: B currentFinger: ${currentFinger}`)
       })
     },
@@ -36,8 +36,8 @@ function sceneA () {
       key: 'r3',
       sensor: mkhs(() => {
         currentRender = 2
-        hand.activeFinger.id = 5
-        hand.activeFinger.editing = true
+        hand.currentFinger.id = 5
+        hand.currentFinger.editing = true
         accSpin = hand.spin
         accPhi = hand.phi
         accTheta = hand.theta
@@ -52,7 +52,7 @@ function sceneA () {
         if (currentFinger === 5) {
           currentFinger = 0
         }
-        hand.activeFinger.id = currentFinger
+        hand.currentFinger.id = currentFinger
         console.log(`currentFinger: ${currentFinger}`)
       })
     },
@@ -65,7 +65,7 @@ function sceneA () {
         } else {
           currentFinger--
         }
-        hand.activeFinger.id = currentFinger
+        hand.currentFinger.id = currentFinger
         console.log(`currentFinger: ${currentFinger}`)
       })
     }
@@ -86,7 +86,7 @@ function sceneB () {
       key: 'r3',
       sensor: mkhs(() => {
         currentRender = 0
-        hand.activeFinger.editing = false
+        hand.currentFinger.editing = false
         console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
       })
     },
@@ -130,8 +130,8 @@ function sceneC () {
       key: 'l3',
       sensor: mkhs(() => {
         currentRender = 0
-        hand.activeFinger.id = currentFinger
-        hand.activeFinger.editing = false
+        hand.currentFinger.id = currentFinger
+        hand.currentFinger.editing = false
 
         console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
       })

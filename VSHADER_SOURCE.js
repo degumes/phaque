@@ -1,5 +1,7 @@
 const VSHADER_SOURCE = `#version 300 es
 in vec4 label;
+uniform int currentFinger;
+uniform bool fingerEditing;
 uniform mat4 aimSpin;
 uniform mat4 tilt[15];
 uniform float padHeight[15];
@@ -13,8 +15,15 @@ void main() {
   int pad = gl_InstanceID - 3 * finger;
 
   if (vertex.z > 0.0) {
-    color = vec4(1.0, 0.8, 0.8, 1.0);
+    if (currentFinger == 5 || fingerEditing && currentFinger == finger) {
+      color = vec4(1.0, 0.2, 0.2, 1.0);
+    } else if (currentFinger == finger) {
+      color = vec4(0.2, 0.9, 0.2, 1.0);
+    } else {
+      color = vec4(0.2, 0.2, 0.9, 1.0);
+    }
   }else{
+    // black
     color = vec4(0.1, 0.1, 0.1, 1.0);
   }
 
