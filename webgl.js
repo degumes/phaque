@@ -18,7 +18,8 @@ const dpi = window.devicePixelRatio || 1
 console.log(dpi)
 
 window.onresize = () => {
-  const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+  // const side = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth
+  const side = 400
   canvas.width = side * dpi
   canvas.height = side * dpi
   canvas.style.width = side + 'px'
@@ -90,6 +91,14 @@ gl.uniform1fv(gl.uni.padHeight, padHeight)
 gl.uni.shiftPad = gl.getUniformLocation(gl.exe, `shiftPad`)
 gl.uniform2fv(gl.uni.shiftPad, shiftPad)
 
+gl.uni.currentFinger = gl.getUniformLocation(gl.exe, `currentFinger`)
+gl.uniform1i(gl.uni.currentFinger, 0)
+const checkCurrentFinger = hadChanged({currentFinger: 0})
+
+gl.uni.fingerEditing = gl.getUniformLocation(gl.exe, `fingerEditing`)
+gl.uniform1i(gl.uni.fingerEditing, 0)
+const checkFingerEditing = hadChanged({fingerEditing: 0})
+
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
 
@@ -133,6 +142,14 @@ export default function (hand) {
       gl.uniformMatrix4fv(gl.uni.tilt[i], false, tilt.matrixes[i])
       needDraw = true
     }
+  }
+  if (checkCurrentFinger({currentFinger: hand.currentFinger.id})) {
+    gl.uniform1i(gl.uni.currentFinger, hand.currentFinger.id)
+    needDraw = true
+  }
+  if (checkFingerEditing({fingerEditing: hand.currentFinger.editing})) {
+    gl.uniform1i(gl.uni.fingerEditing, hand.currentFinger.editing)
+    needDraw = true
   }
   if (needDraw) {
     gl.draw()
