@@ -21,148 +21,131 @@ function mkhs (callback) {
   }
 }
 
-function sceneA () {
-  const handlers = [
-    {
-      key: 'l3',
-      sensor: mkhs(() => {
-        currentRender = 1
-        hand.currentFinger.id = currentFinger
-        hand.currentFinger.editing = true
-        console.log(`going to scene: B currentFinger: ${currentFinger}`)
-      })
-    },
-    {
-      key: 'r3',
-      sensor: mkhs(() => {
-        currentRender = 2
-        hand.currentFinger.id = 5
-        hand.currentFinger.editing = true
-        accSpin = hand.spin
-        accPhi = hand.phi
-        accTheta = hand.theta
-        console.log(`going to scene: C`)
-      })
-    },
-    {
-      key: 'up',
-      sensor: mkhs(() => {
-        lastFinger = currentFinger
-        currentFinger++
-        if (currentFinger === 5) {
-          currentFinger = 0
-        }
-        hand.currentFinger.id = currentFinger
-        console.log(`currentFinger: ${currentFinger}`)
-      })
-    },
-    {
-      key: 'down',
-      sensor: mkhs(() => {
-        lastFinger = currentFinger
-        if (currentFinger === 0) {
-          currentFinger = 4
-        } else {
-          currentFinger--
-        }
-        hand.currentFinger.id = currentFinger
-        console.log(`currentFinger: ${currentFinger}`)
-      })
-    }
-  ]
-  return function renderA (snapad) {
-    for (const hdl of handlers) {
-      hdl.sensor(snapad[hdl.key])
-    }
-    // transformations to hand shape
-    return hand
+const mkScene = handlers => snapad => {
+  for (const hdl of handlers) {
+    hdl.sensor(snapad[hdl.key])
   }
+  return hand
 }
-scenes.push(sceneA())
 
-function sceneB () {
-  const handlers = [
-    {
-      key: 'r3',
-      sensor: mkhs(() => {
-        currentRender = 0
-        hand.currentFinger.editing = false
-        console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
-      })
-    },
-    {
-      key: 'alpha',
-      sensor: a => {
-        hand.fingers[currentFinger].angles['alpha'] = a
+const handlers4pickFinger = [
+  {
+    key: 'in',
+    sensor: mkhs(() => {
+      currentRender = 1
+      hand.currentFinger.id = currentFinger
+      hand.currentFinger.editing = true
+      console.log(`going to scene: B currentFinger: ${currentFinger}`)
+    })
+  },
+  {
+    key: 'out',
+    sensor: mkhs(() => {
+      currentRender = 2
+      hand.currentFinger.id = 5
+      hand.currentFinger.editing = true
+      accSpin = hand.spin
+      accPhi = hand.phi
+      accTheta = hand.theta
+      console.log(`going to scene: C`)
+    })
+  },
+  {
+    key: 'up',
+    sensor: mkhs(() => {
+      lastFinger = currentFinger
+      currentFinger++
+      if (currentFinger === 5) {
+        currentFinger = 0
       }
-    },
-    {
-      key: 'beta',
-      sensor: b => {
-        hand.fingers[currentFinger].angles['beta'] = b
+      hand.currentFinger.id = currentFinger
+      console.log(`currentFinger: ${currentFinger}`)
+    })
+  },
+  {
+    key: 'down',
+    sensor: mkhs(() => {
+      lastFinger = currentFinger
+      if (currentFinger === 0) {
+        currentFinger = 4
+      } else {
+        currentFinger--
       }
-    },
-    {
-      key: 'gamma',
-      sensor: g => {
-        hand.fingers[currentFinger].angles['gamma'] = g
-      }
-    },
-    {
-      key: 'eta',
-      sensor: e => {
-        hand.fingers[currentFinger].angles['eta'] = e
-      }
-    }
-  ]
-  return function renderB (snapad) {
-    for (const hdl of handlers) {
-      hdl.sensor(snapad[hdl.key])
-    }
-    return hand
+      hand.currentFinger.id = currentFinger
+      console.log(`currentFinger: ${currentFinger}`)
+    })
   }
-}
-scenes.push(sceneB())
+]
 
-function sceneC () {
-  const handlers = [
-    {
-      key: 'l3',
-      sensor: mkhs(() => {
-        currentRender = 0
-        hand.currentFinger.id = currentFinger
-        hand.currentFinger.editing = false
-
-        console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
-      })
-    },
-    {
-      key: 'theta',
-      sensor: t => {
-        hand.theta = accTheta + t
-      }
-    },
-    {
-      key: 'phi',
-      sensor: p => {
-        hand.phi = accPhi + p
-      }
-    },
-    {
-      key: 'spin',
-      sensor: s => {
-        hand.spin = accSpin + s
-      }
+const handlers4snailFinger = [
+  {
+    key: 'out',
+    sensor: mkhs(() => {
+      currentRender = 0
+      hand.currentFinger.editing = false
+      console.log(`alpha: ${hand.fingers[currentFinger].angles.alpha} beta: ${hand.fingers[currentFinger].angles.beta} gamma: ${hand.fingers[currentFinger].angles.gamma} eta: ${hand.fingers[currentFinger].angles.eta}`)
+    })
+  },
+  {
+    key: 'alpha',
+    sensor: a => {
+      hand.fingers[currentFinger].angles['alpha'] = a
     }
-  ]
-  return function renderC (snapad) {
-    for (const hdl of handlers) {
-      hdl.sensor(snapad[hdl.key])
+  },
+  {
+    key: 'beta',
+    sensor: b => {
+      hand.fingers[currentFinger].angles['beta'] = b
     }
-    return hand
+  },
+  {
+    key: 'gamma',
+    sensor: g => {
+      hand.fingers[currentFinger].angles['gamma'] = g
+    }
+  },
+  {
+    key: 'eta',
+    sensor: e => {
+      hand.fingers[currentFinger].angles['eta'] = e
+    }
   }
-}
-scenes.push(sceneC())
+]
+
+const handlers4aimHand = [
+  {
+    key: 'in',
+    sensor: mkhs(() => {
+      currentRender = 0
+      hand.currentFinger.id = currentFinger
+      hand.currentFinger.editing = false
+
+      console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
+    })
+  },
+  {
+    key: 'theta',
+    sensor: t => {
+      hand.theta = accTheta + t
+    }
+  },
+  {
+    key: 'phi',
+    sensor: p => {
+      hand.phi = accPhi + p
+    }
+  },
+  {
+    key: 'spin',
+    sensor: s => {
+      hand.spin = accSpin + s
+    }
+  }
+]
+
+scenes.push(mkScene(handlers4pickFinger))
+scenes.push(mkScene(handlers4snailFinger))
+scenes.push(mkScene(handlers4aimHand))
 
 export default function () {
   return scenes[currentRender]
