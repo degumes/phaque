@@ -28,6 +28,13 @@ const mkScene = handlers => snapad => {
   return hand
 }
 
+const handleSave =  {
+  key: 'save',
+  sensor: mkhs(() => {
+    console.log(`download json`)
+  })
+}
+
 const handlers4pickFinger = [
   {
     key: 'in',
@@ -51,7 +58,7 @@ const handlers4pickFinger = [
     })
   },
   {
-    key: 'up',
+    key: 'antiClockWise',
     sensor: mkhs(() => {
       lastFinger = currentFinger
       currentFinger++
@@ -63,7 +70,7 @@ const handlers4pickFinger = [
     })
   },
   {
-    key: 'down',
+    key: 'clockWise',
     sensor: mkhs(() => {
       lastFinger = currentFinger
       if (currentFinger === 0) {
@@ -74,7 +81,8 @@ const handlers4pickFinger = [
       hand.currentFinger.id = currentFinger
       console.log(`currentFinger: ${currentFinger}`)
     })
-  }
+  },
+  handleSave
 ]
 
 const handlers4snailFinger = [
@@ -109,20 +117,11 @@ const handlers4snailFinger = [
     sensor: e => {
       hand.fingers[currentFinger].angles['eta'] = e
     }
-  }
+  },
+  handleSave
 ]
 
 const handlers4aimHand = [
-  {
-    key: 'in',
-    sensor: mkhs(() => {
-      currentRender = 0
-      hand.currentFinger.id = currentFinger
-      hand.currentFinger.editing = false
-
-      console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
-    })
-  },
   {
     key: 'theta',
     sensor: t => {
@@ -140,7 +139,18 @@ const handlers4aimHand = [
     sensor: s => {
       hand.spin = accSpin + s
     }
-  }
+  },
+  {
+    key: 'in',
+    sensor: mkhs(() => {
+      currentRender = 0
+      hand.currentFinger.id = currentFinger
+      hand.currentFinger.editing = false
+
+      console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
+    })
+  },
+  handleSave
 ]
 
 scenes.push(mkScene(handlers4pickFinger))

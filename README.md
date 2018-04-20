@@ -10,5 +10,7 @@
 ## ToDo beta
 * [x] only update changed matrix
 * [x] joint space
-* [ ] colored fingers
+* [x] colored fingers
+* [ ] theta phi PI / 2
+* [ ] UP DOWN changes pictures
 * [ ] SW 10%
