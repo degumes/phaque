@@ -28,10 +28,40 @@ const mkScene = handlers => snapad => {
   return hand
 }
 
-const handleSave =  {
+const handleSave = {
   key: 'save',
   sensor: mkhs(() => {
+    const a = document.createElement('a')
+    document.body.appendChild(a)
+    a.style = 'display: none'
+    const blob = new window.Blob([JSON.stringify(hand, null, 4)], {type: 'application/json'})
+    const url = window.URL.createObjectURL(blob)
+    a.href = url
+    a.download = 'hand.json'
+    a.click()
+    window.URL.revokeObjectURL(url)
+
     console.log(`download json`)
+  })
+}
+
+const handleReset = {
+  key: 'reset',
+  sensor: mkhs(() => {
+    hand.spin = 0
+    hand.phi = 0
+    hand.theta = 0
+    hand.currentFinger.id = 0
+    hand.currentFinger.editing = false
+    hand.fingers.forEach(e => {
+      e.angles.alpha = 0
+      e.angles.beta = 0
+      e.angles.gamma = 0
+      e.angles.eta = 0
+    })
+    currentRender = 0
+    currentFinger = 0
+    console.log(`reset`)
   })
 }
 
@@ -82,7 +112,8 @@ const handlers4pickFinger = [
       console.log(`currentFinger: ${currentFinger}`)
     })
   },
-  handleSave
+  handleSave,
+  handleReset
 ]
 
 const handlers4snailFinger = [
@@ -118,7 +149,8 @@ const handlers4snailFinger = [
       hand.fingers[currentFinger].angles['eta'] = e
     }
   },
-  handleSave
+  handleSave,
+  handleReset
 ]
 
 const handlers4aimHand = [
@@ -150,7 +182,8 @@ const handlers4aimHand = [
       console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
     })
   },
-  handleSave
+  handleSave,
+  handleReset
 ]
 
 scenes.push(mkScene(handlers4pickFinger))
