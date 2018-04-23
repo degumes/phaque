@@ -3,6 +3,8 @@ import imgLst from './handTest.js'
 const hand = mkhand()
 let imgLstIdx = 0
 
+window.hand = hand
+
 const scenes = []
 let currentRender = 0
 
@@ -49,7 +51,7 @@ const handleSave = {
     const blob = new window.Blob([JSON.stringify(hand, null, 4)], {type: 'application/json'})
     const url = window.URL.createObjectURL(blob)
     a.href = url
-    a.download = 'hand.json'
+    a.download = `${hand.img.split('.')[0]}.json`
     a.click()
     window.URL.revokeObjectURL(url)
 
@@ -57,7 +59,7 @@ const handleSave = {
   })
 }
 
-const handleReset = {
+const handleResetAll = {
   key: 'reset',
   sensor: mkhs(() => {
     hand.spin = 0
@@ -73,7 +75,7 @@ const handleReset = {
     })
     currentRender = 0
     currentFinger = 0
-    console.log(`reset`)
+    console.log(`reset all`)
   })
 }
 
@@ -128,7 +130,8 @@ const handlers4pickFinger = [
     key: 'imgInc',
     sensor: mkhs(() => {
       imgLstIdx = ++imgLstIdx % imgLst.length
-      document.getElementById('display').setAttribute('src', imgLst[imgLstIdx])
+      hand.img = imgLst[imgLstIdx]
+      document.getElementById('display').setAttribute('src', hand.img)
       console.log(`imgList << 1`)
     })
   },
@@ -136,12 +139,13 @@ const handlers4pickFinger = [
     key: 'imgDec',
     sensor: mkhs(() => {
       imgLstIdx = --imgLstIdx < 0 ? imgLst.length - 1 : imgLstIdx
-      document.getElementById('display').setAttribute('src', imgLst[imgLstIdx])
+      hand.img = imgLst[imgLstIdx]
+      document.getElementById('display').setAttribute('src', hand.img)
       console.log(`imgList >> 1`)
     })
   },
   handleSave,
-  handleReset
+  handleResetAll
 ]
 
 const handlers4snailFinger = [
@@ -178,7 +182,7 @@ const handlers4snailFinger = [
     }
   },
   handleSave,
-  handleReset
+  handleResetAll
 ]
 
 const handlers4aimHand = [
@@ -210,8 +214,19 @@ const handlers4aimHand = [
       console.log(`going to scene: A spin: ${hand.spin} theta: ${hand.theta} phi: ${hand.phi}`)
     })
   },
-  handleSave,
-  handleReset
+  {
+    key: 'reset',
+    sensor: mkhs(() => {
+      hand.spin = 0
+      hand.phi = 0
+      hand.theta = 0
+      accTheta = 0
+      accPhi = 0
+      accSpin = 0
+      console.log(`reset gimbal`)
+    })
+  },
+  handleSave
 ]
 
 scenes.push(mkScene(handlers4pickFinger))

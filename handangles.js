@@ -4,6 +4,7 @@ const Hand = {
   phi: 0,
   theta: 0,
   anchor: {x: 0, y: 0, z: 0},
+  img: '',
   currentFinger: {
     id: 0,
     editing: false

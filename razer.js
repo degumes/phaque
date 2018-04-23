@@ -15,6 +15,8 @@ export default function () {
       out: false,
       antiClockWise: false,
       clockWise: false,
+      imgInc: false,
+      imgDec: false,
       save: false,
       reset: false
     }
