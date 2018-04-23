@@ -1,5 +1,7 @@
 import mkhand from './handangles.js'
+import imgLst from './handTest.js'
 const hand = mkhand()
+let imgLstIdx = 0
 
 const scenes = []
 let currentRender = 0
@@ -120,6 +122,22 @@ const handlers4pickFinger = [
       }
       hand.currentFinger.id = currentFinger
       console.log(`currentFinger: ${currentFinger}`)
+    })
+  },
+  {
+    key: 'imgInc',
+    sensor: mkhs(() => {
+      imgLstIdx = ++imgLstIdx % imgLst.length
+      document.getElementById('display').setAttribute('src', imgLst[imgLstIdx])
+      console.log(`imgList << 1`)
+    })
+  },
+  {
+    key: 'imgDec',
+    sensor: mkhs(() => {
+      imgLstIdx = --imgLstIdx < 0 ? imgLst.length - 1 : imgLstIdx
+      document.getElementById('display').setAttribute('src', imgLst[imgLstIdx])
+      console.log(`imgList >> 1`)
     })
   },
   handleSave,

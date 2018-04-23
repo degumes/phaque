@@ -31,6 +31,8 @@ export default function () {
       out: pads[0].buttons[11].pressed,
       antiClockWise: pads[0].buttons[4].pressed,
       clockWise: pads[0].buttons[5].pressed,
+      imgInc: pads[0].buttons[12].pressed,
+      imgDec: pads[0].buttons[13].pressed,
       save: pads[0].buttons[1].pressed,
       reset: pads[0].buttons[2].pressed
     }
