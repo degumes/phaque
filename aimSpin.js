@@ -15,15 +15,10 @@ const rotZ = function rotZ (spin) {
   matrixRotZ[5] = c
 }
 
-// [-PI, PI]
-const wraPI = e => ((e + Math.PI) % (4 * Math.PI)) % Math.PI
-
 // [Angle, Ux, Uy, Uz]
 const arrayAU = new Float32Array([0, 0, 0, 0])
 const thetaPhi2AU = function thetaPhi2AU ({theta, phi}) {
-  const wt = wraPI(theta)
-  const wp = wraPI(phi)
-  const atan = Math.atan2(wt, wp)
+  const atan = Math.atan2(phi, theta)
   arrayAU[0] = Math.sqrt(Math.pow(theta, 2) + Math.pow(phi, 2))
   arrayAU[1] = Math.sin(atan)
   arrayAU[2] = Math.cos(atan)

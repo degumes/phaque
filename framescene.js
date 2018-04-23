@@ -27,6 +27,16 @@ const mkScene = handlers => snapad => {
   }
   return hand
 }
+// [-PI, PI]
+const wraPI = e => {
+  if (e > Math.PI) {
+    return e - 2 * Math.PI
+  } else if (e < -Math.PI) {
+    return e + 2 * Math.PI
+  } else {
+    return e
+  }
+}
 
 const handleSave = {
   key: 'save',
@@ -157,13 +167,13 @@ const handlers4aimHand = [
   {
     key: 'theta',
     sensor: t => {
-      hand.theta = accTheta + t
+      hand.theta = wraPI(accTheta + t)
     }
   },
   {
     key: 'phi',
     sensor: p => {
-      hand.phi = accPhi + p
+      hand.phi = wraPI(accPhi + p)
     }
   },
   {

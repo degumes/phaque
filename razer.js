@@ -24,8 +24,8 @@ export default function () {
       beta: halfPI * pads[0].buttons[6].value, // L2
       gamma: halfPI * pads[0].axes[1], // LaV
       eta: halfPI * pads[0].axes[0], // LaH
-      theta: halfPI * pads[0].axes[3], // RaV
-      phi: halfPI * pads[0].axes[2], // RaH
+      theta: halfPI * pads[0].axes[2], // RaH
+      phi: halfPI * pads[0].axes[3], // RaV
       spin: halfPI * (pads[0].buttons[7].value - pads[0].buttons[6].value),
       in: pads[0].buttons[10].pressed,
       out: pads[0].buttons[11].pressed,
