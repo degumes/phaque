@@ -39,9 +39,9 @@ void main() {
     case 0:
       vertex.y = vertex.y + padHeight[3 * finger + 0] / 2.0;
       vertex = tilt[3 * finger] * vertex;
-      vertex.xy = vertex.xy + shiftPad[finger];
+      vertex.x = vertex.x - shiftPad[finger].x;
+      vertex.y = vertex.y + shiftPad[finger].y;
   }
-
 
   vertex = aimSpin * vertex;
 
