@@ -2,7 +2,6 @@ import gamepad from './razer.js'
 import framer from './framescene.js'
 import drawgl from './webgl.js'
 
-let t
 let snapad
 let scene
 let hand
@@ -11,11 +10,10 @@ let hand
 const _gl = (function * () {
   while (true) {
     // pause-resume generator
-    yield t
+    yield
 
     // read gamepad
     snapad = gamepad()
-    snapad.t = t
 
     // articulate interface
     scene = framer()
