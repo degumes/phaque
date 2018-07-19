@@ -6,3 +6,8 @@ const hadChanged = list => hand => Object.keys(list)
   }, false)
 
 export default hadChanged
+/*
+ * [].some(f) = [].recude(
+ *  (a, b) => a || f(b)
+ *, false)
+*/
