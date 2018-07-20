@@ -1,3 +1,7 @@
+/*
+ * 15 matrixes
+ * one for each pad
+ */
 const matrixes = []
 for (let i = 0; i < 15; i++) {
   matrixes.push(new Float32Array([
@@ -7,6 +11,26 @@ for (let i = 0; i < 15; i++) {
     0.0, 0.0, 0.0, 1.0
   ]))
 }
+
+const mkEtaGammaUpdater = idx => ({eta, gamma}) => {
+  const ce = Math.cos(eta)
+  const se = Math.sin(eta)
+  const cg = Math.cos(gamma)
+  const sg = Math.sin(gamma)
+  // E * G
+  matrixes[idx][0] = ce
+  matrixes[idx][1] = se
+  matrixes[idx][4] = -se * cg
+  matrixes[idx][5] = ce * cg
+  matrixes[idx][6] = sg
+  matrixes[idx][8] = se * sg
+  matrixes[idx][9] = -ce * sg
+  matrixes[idx][10] = cg
+}
+
+/*
+ * thumb base need 2 extra transforms
+ */
 const mkThumbEtaGammaUpdater = idx => ({eta, gamma}) => {
   const ce = Math.cos(eta)
   const se = Math.sin(eta)
@@ -25,8 +49,11 @@ const mkThumbEtaGammaUpdater = idx => ({eta, gamma}) => {
   a[9] = -ce * sg
   a[10] = cg
 
-  const cPI4 = Math.cos(-Math.PI / 4)
-  const sPI4 = Math.sin(-Math.PI / 4)
+  const PI4 = Math.PI / 4
+  const chirlt = 1
+
+  const cPI4 = Math.cos(chirlt * PI4)
+  const sPI4 = Math.sin(chirlt * PI4)
   // rotY * E * G
   const b = []
   b[0] = cPI4 * a[0] + sPI4 * a[2]
@@ -51,21 +78,6 @@ const mkThumbEtaGammaUpdater = idx => ({eta, gamma}) => {
   matrixes[idx][10] = b[10]
 }
 
-const mkEtaGammaUpdater = idx => ({eta, gamma}) => {
-  const ce = Math.cos(eta)
-  const se = Math.sin(eta)
-  const cg = Math.cos(gamma)
-  const sg = Math.sin(gamma)
-  // E * G
-  matrixes[idx][0] = ce
-  matrixes[idx][1] = se
-  matrixes[idx][4] = -se * cg
-  matrixes[idx][5] = ce * cg
-  matrixes[idx][6] = sg
-  matrixes[idx][8] = se * sg
-  matrixes[idx][9] = -ce * sg
-  matrixes[idx][10] = cg
-}
 const mkBetaUpdater = idx => ({beta}) => {
   const cb = Math.cos(beta)
   const sb = Math.sin(beta)
@@ -74,6 +86,7 @@ const mkBetaUpdater = idx => ({beta}) => {
   matrixes[idx][9] = -sb
   matrixes[idx][10] = cb
 }
+
 const mkAlphaUpdater = idx => ({alpha}) => {
   const ca = Math.cos(alpha)
   const sa = Math.sin(alpha)
@@ -82,6 +95,7 @@ const mkAlphaUpdater = idx => ({alpha}) => {
   matrixes[idx][9] = -sa
   matrixes[idx][10] = ca
 }
+
 const updateres = []
 updateres.push(mkThumbEtaGammaUpdater(0))
 updateres.push(mkBetaUpdater(1))
