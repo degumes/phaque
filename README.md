@@ -11,6 +11,6 @@
 * [x] only update changed matrix
 * [x] joint space
 * [x] colored fingers
-* [ ] theta phi PI / 2
-* [ ] UP DOWN changes pictures
+* [x] theta phi PI / 2
+* [x] UP DOWN changes pictures
 * [ ] SW 10%
