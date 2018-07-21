@@ -8,7 +8,7 @@ window.hand = hand
 const scenes = []
 let currentRender = 0
 
-let lastFinger = 0
+//let lastFinger = 0
 let currentFinger = 0
 
 let accTheta = 0
@@ -107,11 +107,8 @@ const handlers4pickFinger = [
   {
     key: 'antiClockWise',
     sensor: mkhs(() => {
-      lastFinger = currentFinger
-      currentFinger++
-      if (currentFinger === 5) {
-        currentFinger = 0
-      }
+      currentFinger -= hand.chirlt 
+      currentFinger = ((currentFinger % 5) + 5) % 5
       hand.currentFinger.id = currentFinger
       console.log(`currentFinger: ${currentFinger}`)
     })
@@ -119,12 +116,8 @@ const handlers4pickFinger = [
   {
     key: 'clockWise',
     sensor: mkhs(() => {
-      lastFinger = currentFinger
-      if (currentFinger === 0) {
-        currentFinger = 4
-      } else {
-        currentFinger--
-      }
+      currentFinger += hand.chirlt 
+      currentFinger = ((currentFinger % 5) + 5) % 5
       hand.currentFinger.id = currentFinger
       console.log(`currentFinger: ${currentFinger}`)
     })
