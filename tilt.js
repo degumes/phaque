@@ -14,7 +14,6 @@ for (let i = 0; i < 15; i++) {
 
 const mkEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   const chireta = chirlt * eta
-  console.log(`chireta: ${chirlt}`)
   const ce = Math.cos(chireta)
   const se = Math.sin(chireta)
   const cg = Math.cos(gamma)
