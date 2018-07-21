@@ -31,7 +31,7 @@ const mkEtaGammaUpdater = idx => ({eta, gamma}) => {
 /*
  * thumb base need 2 extra transforms
  */
-const mkThumbEtaGammaUpdater = idx => ({eta, gamma}) => {
+const mkThumbEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   const ce = Math.cos(eta)
   const se = Math.sin(eta)
   const cg = Math.cos(gamma)
@@ -49,11 +49,11 @@ const mkThumbEtaGammaUpdater = idx => ({eta, gamma}) => {
   a[9] = -ce * sg
   a[10] = cg
 
-  const PI4 = Math.PI / 4
-  const chirlt = 1
+  console.log(`chirlt: ${chirlt}`)
+  const chiPI4 = chirlt * Math.PI / 4
 
-  const cPI4 = Math.cos(chirlt * PI4)
-  const sPI4 = Math.sin(chirlt * PI4)
+  const cPI4 = Math.cos(chiPI4)
+  const sPI4 = Math.sin(chiPI4)
   // rotY * E * G
   const b = []
   b[0] = cPI4 * a[0] + sPI4 * a[2]

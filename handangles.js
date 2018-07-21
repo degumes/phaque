@@ -1,5 +1,5 @@
 const Hand = {
-  chirality: 'left',
+  chirlt: 1,
   spin: 0,
   phi: 0,
   theta: 0,

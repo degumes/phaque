@@ -1,21 +1,21 @@
 const halfPI = Math.PI * 0.5
 
 const padMap = {
-      alpha: 0,
-      beta: 0,
-      gamma: 0,
-      eta: 0,
-      theta: 0,
-      phi: 0,
-      spin: 0,
-      in: false,
-      out: false,
-      antiClockWise: false,
-      clockWise: false,
-      imgInc: false,
-      imgDec: false,
-      save: false,
-      reset: false
+  alpha: 0,
+  beta: 0,
+  gamma: 0,
+  eta: 0,
+  theta: 0,
+  phi: 0,
+  spin: 0,
+  in: false,
+  out: false,
+  antiClockWise: false,
+  clockWise: false,
+  imgInc: false,
+  imgDec: false,
+  save: false,
+  reset: false
   }
 
 export default function () {

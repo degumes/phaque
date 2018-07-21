@@ -2,6 +2,7 @@ const VSHADER_SOURCE = `#version 300 es
 in vec4 label;
 uniform int currentFinger;
 uniform bool fingerEditing;
+uniform float chirlt;
 uniform mat4 aimSpin;
 uniform mat4 tilt[15];
 uniform float padHeight[15];
@@ -39,8 +40,11 @@ void main() {
     case 0:
       vertex.y = vertex.y + padHeight[3 * finger + 0] / 2.0;
       vertex = tilt[3 * finger] * vertex;
-      vertex.x = vertex.x - shiftPad[finger].x;
+      vertex.x = vertex.x - chirlt * shiftPad[finger].x;
       vertex.y = vertex.y + shiftPad[finger].y;
+      
+      // sem inversão
+      //vertex.x = vertex.x + shiftPad[finger].x;
   }
 
   vertex = aimSpin * vertex;

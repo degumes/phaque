@@ -25,6 +25,9 @@ function mkhs (callback) {
   }
 }
 
+/*
+ * frame worker
+ */
 const mkScene = handlers => snapad => {
   for (const hdl of handlers) {
     hdl.sensor(snapad[hdl.key])
@@ -186,6 +189,20 @@ const handlers4snailFinger = [
 ]
 
 const handlers4aimHand = [
+  {
+    key: 'clockWise',
+    sensor: mkhs(() => {
+      hand.chirlt = 1.0
+      console.log(`right hand`)
+    })
+  },
+  {
+    key: 'antiClockWise',
+    sensor: mkhs(() => {
+      hand.chirlt = -1.0
+      console.log(`left hand`)
+    })
+  },
   {
     key: 'theta',
     sensor: t => {

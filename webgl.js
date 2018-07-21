@@ -99,6 +99,10 @@ gl.uni.fingerEditing = gl.getUniformLocation(gl.exe, `fingerEditing`)
 gl.uniform1i(gl.uni.fingerEditing, 0)
 const checkFingerEditing = hadChanged({fingerEditing: 0})
 
+gl.uni.chirlt = gl.getUniformLocation(gl.exe, `chirlt`)
+gl.uniform1f(gl.uni.chirlt, 1.0)
+const checkChirlt = hadChanged({chirlt: 1.0})
+
 gl.uni.aimSpin = gl.getUniformLocation(gl.exe, 'aimSpin')
 const checkAimSpin = hadChanged({theta: Infinity, phi: Infinity, spin: Infinity})
 
@@ -107,7 +111,7 @@ for (let i = 0; i < 15; i++) {
   gl.uni.tilt[i] = gl.getUniformLocation(gl.exe, `tilt[${i}]`)
 }
 const checkPads = []
-checkPads.push(hadChanged({eta: Infinity, gamma: Infinity}))
+checkPads.push(hadChanged({chirlt: 0, eta: Infinity, gamma: Infinity}))
 checkPads.push(hadChanged({beta: Infinity}))
 checkPads.push(hadChanged({alpha: Infinity}))
 checkPads.push(hadChanged({eta: Infinity, gamma: Infinity}))
@@ -135,8 +139,13 @@ export default function (hand) {
     gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
     needDraw = true
   }
+  if (checkChirlt(hand)) {
+    gl.uniform1f(gl.uni.chirlt, hand.chirlt)
+    needDraw = true
+  }
   for (let i = 0; i < 15; i++) {
     const angles = hand.fingers[Math.trunc(i / 3)].angles
+    angles.chirlt = hand.chirlt
     if (checkPads[i](angles)) {
       tilt.updateres[i](angles)
       gl.uniformMatrix4fv(gl.uni.tilt[i], false, tilt.matrixes[i])
