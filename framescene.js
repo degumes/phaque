@@ -181,7 +181,7 @@ const handlers4snailFinger = [
   {
     key: 'eta',
     sensor: e => {
-      hand.fingers[currentFinger].angles['eta'] = e
+      hand.fingers[currentFinger].angles['eta'] = -1 * e * hand.chirlt
     }
   },
   handleSave,
