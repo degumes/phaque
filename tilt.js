@@ -12,9 +12,11 @@ for (let i = 0; i < 15; i++) {
   ]))
 }
 
-const mkEtaGammaUpdater = idx => ({eta, gamma}) => {
-  const ce = Math.cos(eta)
-  const se = Math.sin(eta)
+const mkEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
+  const chireta = chirlt * eta
+  console.log(`chireta: ${chirlt}`)
+  const ce = Math.cos(chireta)
+  const se = Math.sin(chireta)
   const cg = Math.cos(gamma)
   const sg = Math.sin(gamma)
   // E * G
@@ -49,9 +51,7 @@ const mkThumbEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   a[9] = -ce * sg
   a[10] = cg
 
-  console.log(`chirlt: ${chirlt}`)
   const chiPI4 = chirlt * Math.PI / 4
-
   const cPI4 = Math.cos(chiPI4)
   const sPI4 = Math.sin(chiPI4)
   // rotY * E * G
