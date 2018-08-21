@@ -20,7 +20,7 @@ const padMap = {
 
 export default function () {
   const pads = navigator.getGamepads()
-  if (pads[0] && pads[0].id === "Razer Razer Serval (STANDARD GAMEPAD Vendor: 1532 Product: 0900)" ) {
+  if (pads[0]) {
       padMap.alpha = halfPI * pads[0].buttons[7].value, // R2
       padMap.beta = halfPI * pads[0].buttons[6].value, // L2
       padMap.gamma = halfPI * pads[0].axes[1], // LaV
