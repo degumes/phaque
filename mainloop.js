@@ -7,33 +7,38 @@ let scene
 let hand
 
 // make *loop to rAF
-const _gl = (function * () {
-  while (true) {
-    // pause-resume generator
-    yield
+const ml = ( _ => {
+  const gen = function * () {
+    while (true) {
+      // pause-resume generator
+      yield
 
-    // read gamepad
-    snapad = gamepad()
+      // read gamepad
+      snapad = gamepad()
 
-    // articulate interface
-    scene = framer()
-    hand = scene(snapad)
+      // articulate interface
+      scene = framer()
+      hand = scene(snapad)
 
-    // webgl draw
-    drawgl(hand)
+      // webgl draw
+      drawgl(hand)
 
-    // loop
-    window.requestAnimationFrame(gl)
+      // loop
+      window.requestAnimationFrame(ml)
+    }
   }
+  
+  const _ml = gen()
+  _ml.next()
+  
+  return e => _ml.next(e)
 })()
-_gl.next()
-const gl = _gl.next.bind(_gl)
 
 window.onload = function () {
   document.getElementById('clickfullscreen').onclick = e => {
     e.srcElement.parentElement.style.display = 'none'
     document.body.webkitRequestFullScreen()
     window.onresize()
-    window.requestAnimationFrame(gl)
+    window.requestAnimationFrame(ml)
   }
 }
