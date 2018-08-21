@@ -1,4 +1,4 @@
-const Hand = {
+const hand = {
   chirlt: 1,
   spin: 0,
   phi: 0,
@@ -58,6 +58,4 @@ const Hand = {
   ]
 }
 
-export default function (handInit = {}) {
-  return Object.assign(handInit, Hand)
-}
+export default hand

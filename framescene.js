@@ -1,6 +1,5 @@
-import mkhand from './handangles.js'
+import hand from './handangles.js'
 import imgLst from './handTest.js'
-const hand = mkhand()
 let imgLstIdx = 0
 
 window.hand = hand
