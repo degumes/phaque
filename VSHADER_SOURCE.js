@@ -15,17 +15,21 @@ void main() {
   int finger = gl_InstanceID / 3;
   int pad = gl_InstanceID - 3 * finger;
 
+
   if (vertex.z > 0.0) {
     if (currentFinger == 5 || fingerEditing && currentFinger == finger) {
-      color = vec4(1.0, 0.2, 0.2, 1.0);
+      // red
+      color = vec4(0.9, 0.2, 0.2, 1.0);
     } else if (currentFinger == finger) {
+      // green
       color = vec4(0.2, 0.9, 0.2, 1.0);
     } else {
+      // blue
       color = vec4(0.2, 0.2, 0.9, 1.0);
     }
   }else{
     // black
-    color = vec4(0.1, 0.1, 0.1, 1.0);
+    color = vec4(0.2, 0.2, 0.2, 1.0);
   }
 
   switch (pad) {
