@@ -1,17 +1,17 @@
 const VSHADER_SOURCE = `#version 300 es
-in vec4 label;
+in vec3 label;
 uniform int currentFinger;
 uniform bool fingerEditing;
 uniform float chirlt;
-uniform mat4 aimSpin;
-uniform mat4 tilt[15];
+uniform mat3 aimSpin;
+uniform mat3 tilt[15];
 uniform float padHeight[15];
 uniform vec2 shiftPad[5];
-uniform vec4 vertexCoordinates[8];
+uniform vec3 vertexCoordinates[8];
 out vec4 color;
 
 void main() {
-  vec4 vertex = vertexCoordinates[int(label)];
+  vec3 vertex = vertexCoordinates[int(label)];
   int finger = gl_InstanceID / 3;
   int pad = gl_InstanceID - 3 * finger;
 
@@ -49,7 +49,7 @@ void main() {
 
   vertex = aimSpin * vertex;
 
-  gl_Position = vec4(vertex.xy / (0.25 * vertex.z + 1.0), vertex.zw);
+  gl_Position = vec4(vertex.xy / (0.25 * vertex.z + 1.0), vertex.z, 1.0);
 }`
 
 export default VSHADER_SOURCE

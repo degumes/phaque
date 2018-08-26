@@ -5,10 +5,9 @@
 const matrixes = []
 for (let i = 0; i < 15; i++) {
   matrixes.push(new Float32Array([
-    1.0, 0.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0, 1.0
+    1.0, 0.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 0.0, 1.0
   ]))
 }
 
@@ -21,12 +20,12 @@ const mkEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   // E * G
   matrixes[idx][0] = ce
   matrixes[idx][1] = se
-  matrixes[idx][4] = -se * cg
-  matrixes[idx][5] = ce * cg
-  matrixes[idx][6] = sg
-  matrixes[idx][8] = se * sg
-  matrixes[idx][9] = -ce * sg
-  matrixes[idx][10] = cg
+  matrixes[idx][3] = -se * cg
+  matrixes[idx][4] = ce * cg
+  matrixes[idx][5] = sg
+  matrixes[idx][6] = se * sg
+  matrixes[idx][7] = -ce * sg
+  matrixes[idx][8] = cg
 }
 
 /*
@@ -43,12 +42,12 @@ const mkThumbEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   a[0] = ce
   a[1] = se
   a[2] = 0
-  a[4] = -se * cg
-  a[5] = ce * cg
-  a[6] = sg
-  a[8] = se * sg
-  a[9] = -ce * sg
-  a[10] = cg
+  a[3] = -se * cg
+  a[4] = ce * cg
+  a[5] = sg
+  a[6] = se * sg
+  a[7] = -ce * sg
+  a[8] = cg
 
   const chiPI4 = chirlt * Math.PI / 4
   const cPI4 = Math.cos(chiPI4)
@@ -58,41 +57,41 @@ const mkThumbEtaGammaUpdater = idx => ({chirlt, eta, gamma}) => {
   b[0] = cPI4 * a[0] + sPI4 * a[2]
   b[1] = a[1]
   b[2] = -sPI4 * a[0] + cPI4 * a[2]
-  b[4] = cPI4 * a[4] + sPI4 * a[6]
-  b[5] = a[5]
-  b[6] = -sPI4 * a[4] + cPI4 * a[6]
-  b[8] = cPI4 * a[8] + sPI4 * a[10]
-  b[9] = a[9]
-  b[10] = -sPI4 * a[8] + cPI4 * a[10]
+  b[3] = cPI4 * a[3] + sPI4 * a[5]
+  b[4] = a[4]
+  b[5] = -sPI4 * a[3] + cPI4 * a[5]
+  b[6] = cPI4 * a[6] + sPI4 * a[8]
+  b[7] = a[7]
+  b[8] = -sPI4 * a[6] + cPI4 * a[8]
 
   // rotZ * rotY * E * G
   matrixes[idx][0] = cPI4 * b[0] - sPI4 * b[1]
   matrixes[idx][1] = sPI4 * b[0] + cPI4 * b[1]
   matrixes[idx][2] = b[2]
-  matrixes[idx][4] = cPI4 * b[4] - sPI4 * b[5]
-  matrixes[idx][5] = sPI4 * b[4] + cPI4 * b[5]
-  matrixes[idx][6] = b[6]
-  matrixes[idx][8] = cPI4 * b[8] - sPI4 * b[9]
-  matrixes[idx][9] = sPI4 * b[8] + cPI4 * b[9]
-  matrixes[idx][10] = b[10]
+  matrixes[idx][3] = cPI4 * b[3] - sPI4 * b[4]
+  matrixes[idx][4] = sPI4 * b[3] + cPI4 * b[4]
+  matrixes[idx][5] = b[5]
+  matrixes[idx][6] = cPI4 * b[6] - sPI4 * b[7]
+  matrixes[idx][7] = sPI4 * b[6] + cPI4 * b[7]
+  matrixes[idx][8] = b[8]
 }
 
 const mkBetaUpdater = idx => ({beta}) => {
   const cb = Math.cos(beta)
   const sb = Math.sin(beta)
-  matrixes[idx][5] = cb
-  matrixes[idx][6] = sb
-  matrixes[idx][9] = -sb
-  matrixes[idx][10] = cb
+  matrixes[idx][4] = cb
+  matrixes[idx][5] = sb
+  matrixes[idx][7] = -sb
+  matrixes[idx][8] = cb
 }
 
 const mkAlphaUpdater = idx => ({alpha}) => {
   const ca = Math.cos(alpha)
   const sa = Math.sin(alpha)
-  matrixes[idx][5] = ca
-  matrixes[idx][6] = sa
-  matrixes[idx][9] = -sa
-  matrixes[idx][10] = ca
+  matrixes[idx][4] = ca
+  matrixes[idx][5] = sa
+  matrixes[idx][7] = -sa
+  matrixes[idx][8] = ca
 }
 
 const updateres = []

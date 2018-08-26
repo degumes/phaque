@@ -83,7 +83,7 @@ gl.bindVertexArray(gl.vao)
 gl.uni = {}
 
 gl.uni.vertexCoordinates = gl.getUniformLocation(gl.exe, `vertexCoordinates`)
-gl.uniform4fv(gl.uni.vertexCoordinates, vertexCoordinates)
+gl.uniform3fv(gl.uni.vertexCoordinates, vertexCoordinates)
 
 gl.uni.padHeight = gl.getUniformLocation(gl.exe, `padHeight`)
 gl.uniform1fv(gl.uni.padHeight, padHeight)
@@ -136,7 +136,7 @@ export default function (hand) {
   let needDraw = false
   if (checkAimSpin(hand)) {
     aimSpin.updater(hand)
-    gl.uniformMatrix4fv(gl.uni.aimSpin, false, aimSpin.matrix)
+    gl.uniformMatrix3fv(gl.uni.aimSpin, false, aimSpin.matrix)
     needDraw = true
   }
   if (checkChirlt(hand)) {
@@ -148,7 +148,7 @@ export default function (hand) {
     angles.chirlt = hand.chirlt
     if (checkPads[i](angles)) {
       tilt.updateres[i](angles)
-      gl.uniformMatrix4fv(gl.uni.tilt[i], false, tilt.matrixes[i])
+      gl.uniformMatrix3fv(gl.uni.tilt[i], false, tilt.matrixes[i])
       needDraw = true
     }
   }

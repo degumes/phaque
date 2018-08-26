@@ -1,8 +1,7 @@
 const matrix = new Float32Array([
-  1.0, 0.0, 0.0, 0.0,
-  0.0, 1.0, 0.0, 0.0,
-  0.0, 0.0, 1.0, 0.0,
-  0.0, 0.0, 0.0, 1.0
+  1.0, 0.0, 0.0,
+  0.0, 1.0, 0.0,
+  0.0, 0.0, 1.0
 ])
 
 const matrixRotZ = Float32Array.from(matrix)
@@ -11,8 +10,8 @@ const rotZ = function rotZ (spin) {
   const s = Math.sin(spin)
   matrixRotZ[0] = c
   matrixRotZ[1] = -s
-  matrixRotZ[4] = s
-  matrixRotZ[5] = c
+  matrixRotZ[3] = s
+  matrixRotZ[4] = c
 }
 
 // [Angle, Ux, Uy, Uz]
@@ -35,34 +34,27 @@ const rotAU = function rotAU () {
   matrixRotAU[0] = oc * au[1] * au[1] + c
   matrixRotAU[1] = oc * au[1] * au[2] - au[3] * s
   matrixRotAU[2] = oc * au[1] * au[3] + au[2] * s
-  matrixRotAU[4] = oc * au[1] * au[2] + au[3] * s
-  matrixRotAU[5] = oc * au[2] * au[2] + c
-  matrixRotAU[6] = oc * au[2] * au[3] - au[1] * s
-  matrixRotAU[8] = oc * au[3] * au[1] - au[2] * s
-  matrixRotAU[9] = oc * au[3] * au[2] + au[1] * s
-  matrixRotAU[10] = oc * au[3] * au[3] + c
+  matrixRotAU[3] = oc * au[1] * au[2] + au[3] * s
+  matrixRotAU[4] = oc * au[2] * au[2] + c
+  matrixRotAU[5] = oc * au[2] * au[3] - au[1] * s
+  matrixRotAU[6] = oc * au[3] * au[1] - au[2] * s
+  matrixRotAU[7] = oc * au[3] * au[2] + au[1] * s
+  matrixRotAU[8] = oc * au[3] * au[3] + c
 }
 const updater = function updater ({theta, phi, spin}) {
   rotZ(spin)
   thetaPhi2AU({theta, phi})
   rotAU()// Rotation matrix from axis U and angle A
 
-  matrix[0] = matrixRotAU[0] * matrixRotZ[0] + matrixRotAU[1] * matrixRotZ[4]
-  matrix[1] = matrixRotAU[4] * matrixRotZ[0] + matrixRotAU[5] * matrixRotZ[4]
-  matrix[2] = matrixRotAU[8] * matrixRotZ[0] + matrixRotAU[9] * matrixRotZ[4]
-  // matrix[3] = 0
-  matrix[4] = matrixRotAU[0] * matrixRotZ[1] + matrixRotAU[1] * matrixRotZ[5]
-  matrix[5] = matrixRotAU[4] * matrixRotZ[1] + matrixRotAU[5] * matrixRotZ[5]
-  matrix[6] = matrixRotAU[8] * matrixRotZ[1] + matrixRotAU[9] * matrixRotZ[5]
-  // matrix[7] = 0
-  matrix[8] = matrixRotAU[2]
-  matrix[9] = matrixRotAU[6]
-  matrix[10] = matrixRotAU[10]
-  // matrix[11] = 0
-  // matrix[12] = 0
-  // matrix[13] = 0
-  // matrix[14] = 0
-  // matrix[15] = 1
+  matrix[0] = matrixRotAU[0] * matrixRotZ[0] + matrixRotAU[1] * matrixRotZ[3]//
+  matrix[1] = matrixRotAU[3] * matrixRotZ[0] + matrixRotAU[4] * matrixRotZ[3]//
+  matrix[2] = matrixRotAU[6] * matrixRotZ[0] + matrixRotAU[7] * matrixRotZ[3]//
+  matrix[3] = matrixRotAU[0] * matrixRotZ[1] + matrixRotAU[1] * matrixRotZ[4]//
+  matrix[4] = matrixRotAU[3] * matrixRotZ[1] + matrixRotAU[4] * matrixRotZ[4]//
+  matrix[5] = matrixRotAU[6] * matrixRotZ[1] + matrixRotAU[7] * matrixRotZ[4]//
+  matrix[6] = matrixRotAU[2]
+  matrix[7] = matrixRotAU[5]
+  matrix[8] = matrixRotAU[8]
 }
 
 export {matrix, updater}
