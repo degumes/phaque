@@ -46,12 +46,12 @@ const updater = function updater ({theta, phi, spin}) {
   thetaPhi2AU({theta, phi})
   rotAU()// Rotation matrix from axis U and angle A
 
-  matrix[0] = matrixRotAU[0] * matrixRotZ[0] + matrixRotAU[1] * matrixRotZ[3]//
-  matrix[1] = matrixRotAU[3] * matrixRotZ[0] + matrixRotAU[4] * matrixRotZ[3]//
-  matrix[2] = matrixRotAU[6] * matrixRotZ[0] + matrixRotAU[7] * matrixRotZ[3]//
-  matrix[3] = matrixRotAU[0] * matrixRotZ[1] + matrixRotAU[1] * matrixRotZ[4]//
-  matrix[4] = matrixRotAU[3] * matrixRotZ[1] + matrixRotAU[4] * matrixRotZ[4]//
-  matrix[5] = matrixRotAU[6] * matrixRotZ[1] + matrixRotAU[7] * matrixRotZ[4]//
+  matrix[0] = matrixRotAU[0] * matrixRotZ[0] + matrixRotAU[1] * matrixRotZ[3]
+  matrix[1] = matrixRotAU[3] * matrixRotZ[0] + matrixRotAU[4] * matrixRotZ[3]
+  matrix[2] = matrixRotAU[6] * matrixRotZ[0] + matrixRotAU[7] * matrixRotZ[3]
+  matrix[3] = matrixRotAU[0] * matrixRotZ[1] + matrixRotAU[1] * matrixRotZ[4]
+  matrix[4] = matrixRotAU[3] * matrixRotZ[1] + matrixRotAU[4] * matrixRotZ[4]
+  matrix[5] = matrixRotAU[6] * matrixRotZ[1] + matrixRotAU[7] * matrixRotZ[4]
   matrix[6] = matrixRotAU[2]
   matrix[7] = matrixRotAU[5]
   matrix[8] = matrixRotAU[8]
