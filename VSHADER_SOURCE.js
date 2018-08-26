@@ -15,7 +15,6 @@ void main() {
   int finger = gl_InstanceID / 3;
   int pad = gl_InstanceID - 3 * finger;
 
-
   if (vertex.z > 0.0) {
     if (currentFinger == 5 || fingerEditing && currentFinger == finger) {
       // red
